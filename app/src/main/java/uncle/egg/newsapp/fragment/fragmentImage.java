@@ -11,7 +11,7 @@ import uncle.egg.newsapp.R;
 /**
  * Created by egguncle on 16.7.20.
  */
-public class fragmentImage extends Fragment{
+public class FragmentImage extends Fragment{
     private View view;
 
     @Override

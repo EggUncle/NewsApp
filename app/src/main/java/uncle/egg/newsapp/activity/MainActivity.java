@@ -56,7 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentManager fm = getSupportFragmentManager();
         fragmentAdapter = new MyFragmentAdapter(fm);
         mViewPager.setAdapter(fragmentAdapter);
-        mViewPager.setOnPageChangeListener(this);
+        mViewPager.addOnPageChangeListener(this);
+
     }
 
     @Override

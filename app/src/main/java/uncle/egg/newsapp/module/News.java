@@ -3,7 +3,7 @@ package uncle.egg.newsapp.module;
 /**
  * Created by egguncle on 16.7.21.
  */
-public class News {
+public class  News {
     //标题
     private String desc;
     //上传时间

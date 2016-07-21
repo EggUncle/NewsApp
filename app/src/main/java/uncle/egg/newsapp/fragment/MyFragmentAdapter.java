@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import uncle.egg.newsapp.util.FindNews;
+
 /**
  * Created by 西域战神阿凡提 on 2016/1/19.
  */
@@ -18,10 +20,10 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
     }
 
     private void init() {
-        fragments[0] = new fragmentNews();
-        fragments[1] = new fragmentNews();
-        fragments[2] = new fragmentNews();
-        fragments[3] = new fragmentImage();
+        fragments[0] = new FragmentNews(FindNews.FIND_NEWS_ANDROID);
+        fragments[1] = new FragmentNews(FindNews.FIND_NEWS_IOS);
+        fragments[2] = new FragmentNews(FindNews.FIND_NEWS_HTML);
+        fragments[3] = new FragmentImage();
     }
 
     @Override

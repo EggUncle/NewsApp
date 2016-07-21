@@ -8,7 +8,7 @@ import com.android.volley.toolbox.Volley;
 /**
  * Created by egguncle on 16.7.21.
  */
-public class App extends Application {
+public class MyApplication extends Application {
     public static RequestQueue queues;
 
     @Override
