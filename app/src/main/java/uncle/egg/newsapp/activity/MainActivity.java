@@ -7,16 +7,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 
+import android.util.Log;
 import android.view.View;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
+import uncle.egg.newsapp.MyApplication;
 import uncle.egg.newsapp.R;
+import uncle.egg.newsapp.fragment.FragmentNews;
 import uncle.egg.newsapp.fragment.MyFragmentAdapter;
 import uncle.egg.newsapp.module.ChangeColorIconWithText;
-
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
@@ -26,11 +28,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ViewPager mViewPager;
     private List<ChangeColorIconWithText> mTabIndicators = new ArrayList<ChangeColorIconWithText>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        initGetNews();
     }
 
     private void initView() {
@@ -58,6 +62,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mViewPager.setAdapter(fragmentAdapter);
         mViewPager.addOnPageChangeListener(this);
 
+    }
+
+    private void initGetNews(){
+        MyApplication.getDataAndroidNews();
+        MyApplication.getDataIOSNews();
+        MyApplication.getDataHtmlNews();
     }
 
     @Override
@@ -124,7 +134,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onPageSelected(int position) {
         // TODO Auto-generated method stub
-        //  setTitle(titleStrs[position]);
+        //  Log.v("MT",position+"");
+
     }
 
     @Override

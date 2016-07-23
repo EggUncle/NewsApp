@@ -15,21 +15,16 @@ import java.util.List;
 import uncle.egg.newsapp.R;
 import uncle.egg.newsapp.util.FindNews;
 
-/**
- * Created by xiaolifan on 2015/12/25.
- * QQ: 1147904198
- * Email: xiao_lifan@163.com
- */
+
 public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.MyViewHolder> {
 
     private Context context;
-    public List<News> DataNews ;
+    public List<News> DataNews;
 
 
-    public ListRecyclerAdapter(Context context,int type) {
+    public ListRecyclerAdapter(Context context, List<News> dataNews) {
         this.context = context;
-        DataNews = new ArrayList<>();
-        DataNews = FindNews.getNews(type,1);
+        this.DataNews = dataNews;
     }
 
     @Override
@@ -40,9 +35,9 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-      //  holder.textView.setText("Item Data " + position);
+        //  holder.textView.setText("Item Data " + position);
         holder.txtDesc.setText(DataNews.get(position).getDesc());
-        holder.txtPublishedAt.setText(DataNews.get(position).getPublicedAt().substring(0,10));
+        holder.txtPublishedAt.setText(DataNews.get(position).getPublishedAt().substring(0, 10));
         holder.txtWho.setText(DataNews.get(position).getWho());
 
 ////        Log.v("MY_TAG",DataNews.get(position).getDesc());
@@ -50,13 +45,11 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
 ////        Log.v("MY_TAG",DataNews.get(position).getWho());
 //        Log.v("MY_TAG",DataNews.size()+"");
 
-//        holder.txtDesc.setText("1");
-//        holder.txtPublishedAt.setText("1");
-//        holder.txtWho.setText("1");
+
         holder.txtDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,DataNews.get(position).getUrl(), Toast.LENGTH_SHORT)
+                Toast.makeText(context, DataNews.get(position).getUrl(), Toast.LENGTH_SHORT)
                         .show();
             }
         });

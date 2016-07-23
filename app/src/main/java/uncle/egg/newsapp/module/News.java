@@ -7,7 +7,7 @@ public class  News {
     //标题
     private String desc;
     //上传时间
-    private String publicedAt;
+    private String publicshedAt;
     //类型
     private String type;
     //链接
@@ -23,12 +23,12 @@ public class  News {
         this.desc = desc;
     }
 
-    public String getPublicedAt() {
-        return publicedAt;
+    public String getPublishedAt() {
+        return publicshedAt;
     }
 
-    public void setPublicedAt(String publicedAt) {
-        this.publicedAt = publicedAt;
+    public void setPublishedAt(String publicshedAt) {
+        this.publicshedAt = publicshedAt;
     }
 
     public String getType() {

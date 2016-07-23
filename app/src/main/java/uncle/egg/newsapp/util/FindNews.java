@@ -1,5 +1,7 @@
 package uncle.egg.newsapp.util;
 
+import android.database.Cursor;
+import android.text.Html;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -24,18 +26,20 @@ public class FindNews {
     //获取信息的工具类
     //数据来源文档 http://gank.io/api
 
-    public final static int FIND_NEWS_ANDROID = 1;
-    public final static int FIND_NEWS_IOS = 2;
-    public final static int FIND_NEWS_HTML = 3;
-    public final static int FIND_NEWS_GIRL = 4;
+    public final static int FIND_NEWS_ANDROID = 0;
+    public final static int FIND_NEWS_IOS = 1;
+    public final static int FIND_NEWS_HTML = 2;
+    public final static int FIND_NEWS_GIRL = 3;
 
     public final static String TAG = "MY_TAG";
 
+    public static List<News> DataAndroidNews = new ArrayList<>();
+    public static List<News> DataIOSNews = new ArrayList<>();
+    public static List<News> DataHtmlNews = new ArrayList<>();
+
     public static List<News> DataNews = new ArrayList<>();
 
-    //type 请求的数据内容类型 android|IOS|前端|妹子图
-    //page 请求了第几页
-    public static List<News> getNews(int type, int page) {
+    public static String getUrl(int type, int page) {
         String strType = null;
         switch (type) {
             case FIND_NEWS_ANDROID: {
@@ -43,7 +47,7 @@ public class FindNews {
             }
             break;
             case FIND_NEWS_IOS: {
-                strType = "IOS";
+                strType = "iOS";
             }
             break;
             case FIND_NEWS_HTML: {
@@ -57,6 +61,16 @@ public class FindNews {
         }
 
         String volley_url = "http://gank.io/api/search/query/listview/category/" + strType + "/count/10/page/" + page;
+
+        return volley_url;
+    }
+
+    //type 请求的数据内容类型 android|IOS|前端|妹子图
+    //page 请求了第几页
+    public static List<News> getNews(int type, int page) {
+
+        String volley_url = getUrl(type, page);
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, volley_url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -70,21 +84,63 @@ public class FindNews {
 //                            }
                             jsonArray = jsonObject.getJSONArray("results");
 
-                            Log.v(TAG,jsonArray.length()+"  jsonArray.length()");
+                            Log.v(TAG, jsonArray.length() + "  jsonArray.length()");
 
                             //解析json数据，存入list中
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 News news = null;
                                 news = new News();
 
-                                Log.v(TAG,"TEST"+jsonArray.optJSONObject(i).get("desc").toString());
-                                Log.v(TAG,"type:"+jsonArray.optJSONObject(i).get("type").toString());
+                                Log.v(TAG, "TEST:" + jsonArray.optJSONObject(i).get("desc").toString());
+                                Log.v(TAG, "type:" + jsonArray.optJSONObject(i).get("type").toString());
 
-                                news.setDesc(jsonArray.optJSONObject(i).get("desc").toString());
-                                news.setPublicedAt(jsonArray.optJSONObject(i).get("publishedAt").toString());
-                                news.setType(jsonArray.optJSONObject(i).get("type").toString());
-                                news.setUrl(jsonArray.optJSONObject(i).get("url").toString());
-                                news.setWho(jsonArray.optJSONObject(i).get("who").toString());
+                            //    String _id = jsonArray.optJSONObject(i).get("ganhuo_id").toString();
+
+
+
+
+                                String desc = jsonArray.optJSONObject(i).get("desc").toString();
+                                String url = jsonArray.optJSONObject(i).get("url").toString();
+                                //若数据库中有这个干货的标题，则不添加进去,开始下一次循环
+                                Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from news where url = '" + url+"'", null);
+                          //      Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select desc from news where desc = " + desc, null);
+                                if(cursor.getCount()!=0){
+                                    continue;
+                                }
+                                Cursor cursorNews = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from news ", null);
+
+                                int max_id = cursorNews.getCount()+1;
+
+
+
+                                String publishedAt = jsonArray.optJSONObject(i).get("publishedAt").toString();
+                                String type = jsonArray.optJSONObject(i).get("type").toString();
+
+                                String who = jsonArray.optJSONObject(i).get("who").toString();
+
+                                MyApplication.getNewsDB().getReadableDatabase().execSQL(
+                                        "insert  into news values(?,?,?,?,?,?)"
+                                        , new String[]{max_id+"", desc, publishedAt,type, url, who});
+
+                                news.setDesc(desc);
+                                news.setPublishedAt(publishedAt);
+                                news.setType(type);
+                                news.setUrl(url);
+                                news.setWho(who);
+
+                                //  String type = jsonArray.optJSONObject(i).get("type").toString();
+//                                switch (type) {
+//                                    case "Android":
+//                                        DataAndroidNews.add(news);
+//                                        break;
+//                                    case "iOS":
+//                                        DataIOSNews.add(news);
+//                                        break;
+//                                    case "前端":
+//                                        DataHtmlNews.add(news);
+//                                        break;
+//                                }
+
                                 DataNews.add(news);
                             }
                         } catch (JSONException e) {
@@ -103,7 +159,35 @@ public class FindNews {
 
         request.setTag("newsGet");
         MyApplication.getHttpQueues().add(request);
-
-        return DataNews;
+        //  Log.v("MY_TAA","FindNews:"+DataNews.size());
+         return DataNews;
     }
+
+    public static List<News> getDataAndroidNews() {
+        // DataAndroidNews = getNews(FIND_NEWS_ANDROID, 1);
+
+        return DataAndroidNews;
+    }
+
+    public static List<News> getDataIOSNews() {
+        // getNews(FIND_NEWS_IOS, 1);
+        //   DataIOSNews = getNews(FIND_NEWS_IOS, 1);
+
+        return DataIOSNews;
+    }
+
+
+    public static List<News> getDataHtmlNews() {
+
+        //   DataHtmlNews = getNews(FIND_NEWS_HTML, 1);
+
+        return DataHtmlNews;
+    }
+
+
+    public static void ClearList() {
+        DataNews = null;
+    }
+
+    // public static void
 }
