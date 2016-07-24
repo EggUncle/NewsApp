@@ -8,20 +8,21 @@
     android:orientation="vertical">
 
     <TextView
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:id="@+id/txt_desc"
         android:text="标题"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:paddingTop="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
         <TextView
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:text="时间"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +30,7 @@
             android:layout_weight="1"
             />
         <TextView
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:text="作者"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

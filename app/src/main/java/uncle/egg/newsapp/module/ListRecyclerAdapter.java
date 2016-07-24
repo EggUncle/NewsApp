@@ -55,12 +55,17 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         });
     }
 
+
+
     @Override
     public int getItemCount() {
 
         return DataNews.size();
 
     }
+
+
+
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 

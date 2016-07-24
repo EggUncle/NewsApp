@@ -37,6 +37,12 @@ public class FragmentNews extends Fragment implements
     //新闻消息的类型
     private int type;
 
+    //当前的页面,默认第一页
+    private int pageNum = 1;
+
+    //List中的数据数量
+    private int listDataNum = 10;
+
     private View view;
 
 
@@ -61,14 +67,18 @@ public class FragmentNews extends Fragment implements
         refreshLayout.setRefreshLayoutListener(this);
 
         rvTest = (RecyclerView) view.findViewById(R.id.rv_test);
-        Log.v("MY_TAG","--------------------------------oncreateview--------------" + type);
+        adapter = new ListRecyclerAdapter(getActivity(), DataNews);
+        rvTest.setAdapter(adapter);
+
+        Log.v("MY_TAG", "--------------------------------oncreateview--------------" + type);
 //        if (firstOnCreate) {
 //            setFragmentData();
 //            firstOnCreate=false;
 //        }else {
 //            rvTest.setAdapter(adapter);
 //        }
-        setFragmentData();
+        //  setFragmentData();
+
         return view;
     }
 
@@ -79,42 +89,71 @@ public class FragmentNews extends Fragment implements
 
     public FragmentNews(int type) {
         this.type = type;
+        switch (type) {
+            case FindNews.FIND_NEWS_ANDROID: {
+                FindNews.getNews(type, 1);
+                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, 10);
+                //  DataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_HTML,++listDataNum));
+            }
+            break;
+            case FindNews.FIND_NEWS_IOS: {
+                FindNews.getNews(type, 1);
+                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, 10);
+            }
+            break;
+            case FindNews.FIND_NEWS_HTML: {
+                FindNews.getNews(type, 1);
+
+                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, 10);
+            }
+            break;
+            case FindNews.FIND_NEWS_GIRL: {
+                // strType = "福利";
+            }
+            break;
+        }
+
 
     }
 
+
+    //获取更多数据
     public void setFragmentData() {
         //  DataNews = new ArrayList<>();
         //     DataNews = FindNews.getNews(type, 1);
         switch (type) {
             case FindNews.FIND_NEWS_ANDROID: {
-              //  FindNews.getNews(type, 1);
-                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID,10);
+                FindNews.getNews(type, ++pageNum);
+                DataNews.clear();
+                //一次多获取十条
+                listDataNum = listDataNum + 10;
+                DataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_IOS: {
-              //  FindNews.getNews(type, 1);
-                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_IOS,10);
+                FindNews.getNews(type, ++pageNum);
+                DataNews.clear();
+                //一次多获取十条
+                listDataNum = listDataNum + 10;
+                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum);
             }
             break;
             case FindNews.FIND_NEWS_HTML: {
-              //  FindNews.getNews(type, 1);
-                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_HTML,10);
+                FindNews.getNews(type, ++pageNum);
+                DataNews.clear();
+                //一次多获取十条
+                listDataNum = listDataNum + 10;
+                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum);
             }
             break;
             case FindNews.FIND_NEWS_GIRL: {
-                //  strType = "福利";
+                // strType = "福利";
             }
             break;
         }
 
-        adapter = new ListRecyclerAdapter(getActivity(), DataNews);
-        rvTest.setAdapter(adapter);
-        DataNews=null;
-        // adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
-
-
-
 
 
     @Override
@@ -139,7 +178,6 @@ public class FragmentNews extends Fragment implements
             @Override
             public void run() {
                 refreshLayout.finishPullRefresh();
-                setFragmentData();
                 Toast.makeText(getActivity(), "下拉刷新", Toast.LENGTH_LONG).show();
             }
         }, 1000);
@@ -151,6 +189,7 @@ public class FragmentNews extends Fragment implements
             @Override
             public void run() {
                 refreshLayout.finishPullLoad();
+                setFragmentData();
                 Toast.makeText(getActivity(), "上拉加载更多", Toast.LENGTH_LONG).show();
             }
         }, 1000);
