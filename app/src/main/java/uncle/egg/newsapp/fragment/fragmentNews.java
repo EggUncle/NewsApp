@@ -135,7 +135,7 @@ public class FragmentNews extends Fragment implements
                 DataNews.clear();
                 //一次多获取十条
                 listDataNum = listDataNum + 10;
-                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum);
+                DataNews .addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_HTML: {
@@ -143,7 +143,7 @@ public class FragmentNews extends Fragment implements
                 DataNews.clear();
                 //一次多获取十条
                 listDataNum = listDataNum + 10;
-                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum);
+                DataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_GIRL: {

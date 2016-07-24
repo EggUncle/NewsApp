@@ -1,6 +1,7 @@
 package uncle.egg.newsapp.module;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uncle.egg.newsapp.R;
+import uncle.egg.newsapp.activity.WebActivity;
 import uncle.egg.newsapp.util.FindNews;
 
 
@@ -51,6 +53,9 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
             public void onClick(View v) {
                 Toast.makeText(context, DataNews.get(position).getUrl(), Toast.LENGTH_SHORT)
                         .show();
+                Intent intent  =new Intent(context, WebActivity.class);
+                intent.putExtra("url",DataNews.get(position).getUrl());
+                context.startActivity(intent);
             }
         });
     }
