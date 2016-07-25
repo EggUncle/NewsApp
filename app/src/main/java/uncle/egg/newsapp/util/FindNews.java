@@ -94,16 +94,16 @@ public class FindNews {
                                 Log.v(TAG, "TEST:" + jsonArray.optJSONObject(i).get("desc").toString());
                                 Log.v(TAG, "type:" + jsonArray.optJSONObject(i).get("type").toString());
 
-                            //    String _id = jsonArray.optJSONObject(i).get("ganhuo_id").toString();
 
 
 
 
                                 String desc = jsonArray.optJSONObject(i).get("desc").toString();
                                 String url = jsonArray.optJSONObject(i).get("url").toString();
-                                //若数据库中有这个干货的标题，则不添加进去,开始下一次循环
+                                //若数据库中有这个干货的链接，则不添加进去,开始下一次循环 （依靠链接来判断是否重复
                                 Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from news where url = '" + url+"'", null);
-                          //      Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select desc from news where desc = " + desc, null);
+                                //依靠标题来判断是否重复
+                                // Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select desc from news where desc = " + desc, null);
                                 if(cursor.getCount()!=0){
                                     continue;
                                 }
@@ -128,18 +128,8 @@ public class FindNews {
                                 news.setUrl(url);
                                 news.setWho(who);
 
-                                //  String type = jsonArray.optJSONObject(i).get("type").toString();
-//                                switch (type) {
-//                                    case "Android":
-//                                        DataAndroidNews.add(news);
-//                                        break;
-//                                    case "iOS":
-//                                        DataIOSNews.add(news);
-//                                        break;
-//                                    case "前端":
-//                                        DataHtmlNews.add(news);
-//                                        break;
-//                                }
+
+
 
                                 DataNews.add(news);
                             }
@@ -163,31 +153,6 @@ public class FindNews {
          return DataNews;
     }
 
-    public static List<News> getDataAndroidNews() {
-        // DataAndroidNews = getNews(FIND_NEWS_ANDROID, 1);
-
-        return DataAndroidNews;
-    }
-
-    public static List<News> getDataIOSNews() {
-        // getNews(FIND_NEWS_IOS, 1);
-        //   DataIOSNews = getNews(FIND_NEWS_IOS, 1);
-
-        return DataIOSNews;
-    }
 
 
-    public static List<News> getDataHtmlNews() {
-
-        //   DataHtmlNews = getNews(FIND_NEWS_HTML, 1);
-
-        return DataHtmlNews;
-    }
-
-
-    public static void ClearList() {
-        DataNews = null;
-    }
-
-    // public static void
 }

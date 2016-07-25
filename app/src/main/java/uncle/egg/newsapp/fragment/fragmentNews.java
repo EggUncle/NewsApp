@@ -93,7 +93,6 @@ public class FragmentNews extends Fragment implements
             case FindNews.FIND_NEWS_ANDROID: {
                 FindNews.getNews(type, 1);
                 DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, 10);
-                //  DataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_HTML,++listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_IOS: {
@@ -119,8 +118,6 @@ public class FragmentNews extends Fragment implements
 
     //获取更多数据
     public void setFragmentData() {
-        //  DataNews = new ArrayList<>();
-        //     DataNews = FindNews.getNews(type, 1);
         switch (type) {
             case FindNews.FIND_NEWS_ANDROID: {
                 FindNews.getNews(type, ++pageNum);
@@ -178,7 +175,8 @@ public class FragmentNews extends Fragment implements
             @Override
             public void run() {
                 refreshLayout.finishPullRefresh();
-                Toast.makeText(getActivity(), "下拉刷新", Toast.LENGTH_LONG).show();
+                setFragmentData();
+              //  Toast.makeText(getActivity(), "下拉刷新", Toast.LENGTH_LONG).show();
             }
         }, 1000);
     }
@@ -190,7 +188,7 @@ public class FragmentNews extends Fragment implements
             public void run() {
                 refreshLayout.finishPullLoad();
                 setFragmentData();
-                Toast.makeText(getActivity(), "上拉加载更多", Toast.LENGTH_LONG).show();
+           //     Toast.makeText(getActivity(), "上拉加载更多", Toast.LENGTH_LONG).show();
             }
         }, 1000);
     }

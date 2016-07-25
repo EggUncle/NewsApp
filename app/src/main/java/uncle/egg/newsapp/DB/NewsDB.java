@@ -76,7 +76,7 @@ public class NewsDB extends SQLiteOpenHelper {
             }
             break;
             case FindNews.FIND_NEWS_GIRL: {
-                //  strType = "福利";
+                 strType = "福利";
             }
             break;
         }

@@ -37,15 +37,11 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        //  holder.textView.setText("Item Data " + position);
+
         holder.txtDesc.setText(DataNews.get(position).getDesc());
         holder.txtPublishedAt.setText(DataNews.get(position).getPublishedAt().substring(0, 10));
         holder.txtWho.setText(DataNews.get(position).getWho());
 
-////        Log.v("MY_TAG",DataNews.get(position).getDesc());
-////        Log.v("MY_TAG",DataNews.get(position).getPublicedAt());
-////        Log.v("MY_TAG",DataNews.get(position).getWho());
-//        Log.v("MY_TAG",DataNews.size()+"");
 
 
         holder.txtDesc.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +50,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
                 Toast.makeText(context, DataNews.get(position).getUrl(), Toast.LENGTH_SHORT)
                         .show();
                 Intent intent  =new Intent(context, WebActivity.class);
+                intent.putExtra("desc",DataNews.get(position).getDesc());
                 intent.putExtra("url",DataNews.get(position).getUrl());
                 context.startActivity(intent);
             }
