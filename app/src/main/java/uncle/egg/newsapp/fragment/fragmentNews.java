@@ -30,7 +30,6 @@ public class FragmentNews extends Fragment implements
         NsRefreshLayout.NsRefreshLayoutController, NsRefreshLayout.NsRefreshLayoutListener {
 
     private boolean loadMoreEnable = true;
-    private boolean firstOnCreate = true;
     private NsRefreshLayout refreshLayout;
     private RecyclerView rvTest;
 
@@ -43,10 +42,13 @@ public class FragmentNews extends Fragment implements
     //List中的数据数量
     private int listDataNum = 10;
 
+    //List一次数据添加的数量
+    private int listDataAddNum=10;
+
     private View view;
 
 
-    public List<News> DataNews;
+    private List<News> dateNews;
 
     private ListRecyclerAdapter adapter;
 
@@ -67,7 +69,7 @@ public class FragmentNews extends Fragment implements
         refreshLayout.setRefreshLayoutListener(this);
 
         rvTest = (RecyclerView) view.findViewById(R.id.rv_test);
-        adapter = new ListRecyclerAdapter(getActivity(), DataNews);
+        adapter = new ListRecyclerAdapter(getActivity(), dateNews);
         rvTest.setAdapter(adapter);
 
         Log.v("MY_TAG", "--------------------------------oncreateview--------------" + type);
@@ -92,18 +94,18 @@ public class FragmentNews extends Fragment implements
         switch (type) {
             case FindNews.FIND_NEWS_ANDROID: {
                 FindNews.getNews(type, 1);
-                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, 10);
+                dateNews = NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, listDataNum);
             }
             break;
             case FindNews.FIND_NEWS_IOS: {
                 FindNews.getNews(type, 1);
-                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, 10);
+                dateNews = NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum);
             }
             break;
             case FindNews.FIND_NEWS_HTML: {
                 FindNews.getNews(type, 1);
 
-                DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, 10);
+                dateNews = NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum);
             }
             break;
             case FindNews.FIND_NEWS_GIRL: {
@@ -121,26 +123,26 @@ public class FragmentNews extends Fragment implements
         switch (type) {
             case FindNews.FIND_NEWS_ANDROID: {
                 FindNews.getNews(type, ++pageNum);
-                DataNews.clear();
+                dateNews.clear();
                 //一次多获取十条
-                listDataNum = listDataNum + 10;
-                DataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, listDataNum));
+                listDataNum = listDataNum + listDataAddNum;
+                dateNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_IOS: {
                 FindNews.getNews(type, ++pageNum);
-                DataNews.clear();
+                dateNews.clear();
                 //一次多获取十条
-                listDataNum = listDataNum + 10;
-                DataNews .addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum));
+                listDataNum = listDataNum + listDataAddNum;
+                dateNews .addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_HTML: {
                 FindNews.getNews(type, ++pageNum);
-                DataNews.clear();
+                dateNews.clear();
                 //一次多获取十条
-                listDataNum = listDataNum + 10;
-                DataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum));
+                listDataNum = listDataNum + listDataAddNum;
+                dateNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_GIRL: {

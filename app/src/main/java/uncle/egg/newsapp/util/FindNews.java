@@ -31,15 +31,13 @@ public class FindNews {
     public final static int FIND_NEWS_HTML = 2;
     public final static int FIND_NEWS_GIRL = 3;
 
-    public final static String TAG = "MY_TAG";
+    private final static String TAG = "MY_TAG";
 
-    public static List<News> DataAndroidNews = new ArrayList<>();
-    public static List<News> DataIOSNews = new ArrayList<>();
-    public static List<News> DataHtmlNews = new ArrayList<>();
 
-    public static List<News> DataNews = new ArrayList<>();
 
-    public static String getUrl(int type, int page) {
+    private static List<News> dataNews = new ArrayList<>();
+
+    private static String getUrl(int type, int page) {
         String strType = null;
         switch (type) {
             case FIND_NEWS_ANDROID: {
@@ -131,7 +129,7 @@ public class FindNews {
 
 
 
-                                DataNews.add(news);
+                                dataNews.add(news);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -150,7 +148,7 @@ public class FindNews {
         request.setTag("newsGet");
         MyApplication.getHttpQueues().add(request);
         //  Log.v("MY_TAA","FindNews:"+DataNews.size());
-         return DataNews;
+         return dataNews;
     }
 
 

@@ -12,8 +12,7 @@ import uncle.egg.newsapp.util.FindNews;
  * Created by 西域战神阿凡提 on 2016/1/19.
  */
 public class MyFragmentAdapter extends FragmentStatePagerAdapter {
-    Fragment[] fragments = new Fragment[4];
-
+    private Fragment[] fragments = new Fragment[4];
 
 
     public MyFragmentAdapter(FragmentManager fm) {

@@ -47,7 +47,7 @@ public class FragmentImage extends Fragment implements
     private View view;
 
 
-    public List<News> DataNews;
+    private  List<News> dataNews;
 
     private ImageRecyclerAdapter adapter;
 
@@ -68,7 +68,9 @@ public class FragmentImage extends Fragment implements
         refreshLayout.setRefreshLayoutListener(this);
 
         rvTest = (RecyclerView) view.findViewById(R.id.rv_test);
-        adapter = new ImageRecyclerAdapter(getActivity(), DataNews);
+        adapter = new ImageRecyclerAdapter(getActivity(), dataNews);
+
+        //瀑布流
         rvTest.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         SpacesItemDecoration decoration=new SpacesItemDecoration(16);
         rvTest.addItemDecoration(decoration);
@@ -87,50 +89,18 @@ public class FragmentImage extends Fragment implements
     public FragmentImage(int type) {
         this.type = type;
         FindNews.getNews(type, 1);
-        DataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_GIRL, 10);
+        dataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_GIRL, 10);
     }
 
 
     //获取更多数据
     public void setFragmentData() {
-        //  DataNews = new ArrayList<>();
-        //     DataNews = FindNews.getNews(type, 1);
-        switch (type) {
-            case FindNews.FIND_NEWS_ANDROID: {
-                FindNews.getNews(type, ++pageNum);
-                DataNews.clear();
-                //一次多获取十条
-                listDataNum = listDataNum + 10;
-                DataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, listDataNum));
-            }
-            break;
-            case FindNews.FIND_NEWS_IOS: {
-                FindNews.getNews(type, ++pageNum);
-                DataNews.clear();
-                //一次多获取十条
-                listDataNum = listDataNum + 10;
-                DataNews .addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum));
-            }
-            break;
-            case FindNews.FIND_NEWS_HTML: {
-                FindNews.getNews(type, ++pageNum);
-                DataNews.clear();
-                //一次多获取十条
-                listDataNum = listDataNum + 10;
-                DataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum));
-            }
-            break;
-            case FindNews.FIND_NEWS_GIRL: {
-                // strType = "福利";
-                FindNews.getNews(type, ++pageNum);
-                DataNews.clear();
-                //一次多获取十条
-                listDataNum = listDataNum + 10;
-                DataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_GIRL, listDataNum));
-            }
-            break;
-        }
-
+        // strType = "福利";
+        FindNews.getNews(type, ++pageNum);
+        dataNews.clear();
+        //一次多获取十条
+        listDataNum = listDataNum + 10;
+        dataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_GIRL, listDataNum));
         adapter.notifyDataSetChanged();
     }
 

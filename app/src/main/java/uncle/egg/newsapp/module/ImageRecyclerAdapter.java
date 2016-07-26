@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uncle.egg.newsapp.MyApplication;
@@ -30,13 +31,14 @@ import uncle.egg.newsapp.activity.WebActivity;
 public class ImageRecyclerAdapter extends RecyclerView.Adapter<ImageRecyclerAdapter.MyViewHolder> {
 
     private Context context;
-    public List<News> DataNews;
-    public Bitmap mBitmap;
+    private List<News> dataNews;
+    private Bitmap bitmap;
 
 
     public ImageRecyclerAdapter(Context context, List<News> dataNews) {
         this.context = context;
-        this.DataNews = dataNews;
+        this.dataNews = dataNews;
+
     }
 
     @Override
@@ -48,14 +50,15 @@ public class ImageRecyclerAdapter extends RecyclerView.Adapter<ImageRecyclerAdap
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
-        String url = DataNews.get(position).getUrl();
+        String url = dataNews.get(position).getUrl();
+
 
         ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
 
             @Override
             public void onResponse(Bitmap bitmap) {
                 holder.imgGirl.setImageBitmap(bitmap);
-                mBitmap = bitmap;
+                bitmap = bitmap;
             }
         }, 0, 0, Bitmap.Config.RGB_565, new Response.ErrorListener() {
             @Override
@@ -79,20 +82,20 @@ public class ImageRecyclerAdapter extends RecyclerView.Adapter<ImageRecyclerAdap
     @Override
     public int getItemCount() {
 
-        return DataNews.size();
+        return dataNews.size();
 
     }
 
 
-    static class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-    //    private ImageView imgStar;
+        //    private ImageView imgStar;
         private ImageView imgGirl;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
-    //        imgStar = (ImageView) itemView.findViewById(R.id.img_star);
+            //        imgStar = (ImageView) itemView.findViewById(R.id.img_star);
             imgGirl = (ImageView) itemView.findViewById(R.id.img_girl);
         }
     }

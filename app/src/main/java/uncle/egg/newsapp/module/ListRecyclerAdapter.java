@@ -21,12 +21,12 @@ import uncle.egg.newsapp.util.FindNews;
 public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.MyViewHolder> {
 
     private Context context;
-    public List<News> DataNews;
+    private List<News> dataNews;
 
 
     public ListRecyclerAdapter(Context context, List<News> dataNews) {
         this.context = context;
-        this.DataNews = dataNews;
+        this.dataNews = dataNews;
     }
 
     @Override
@@ -38,20 +38,20 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 
-        holder.txtDesc.setText(DataNews.get(position).getDesc());
-        holder.txtPublishedAt.setText(DataNews.get(position).getPublishedAt().substring(0, 10));
-        holder.txtWho.setText(DataNews.get(position).getWho());
+        holder.txtDesc.setText(dataNews.get(position).getDesc());
+        holder.txtPublishedAt.setText(dataNews.get(position).getPublishedAt().substring(0, 10));
+        holder.txtWho.setText(dataNews.get(position).getWho());
 
 
 
         holder.txtDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, DataNews.get(position).getUrl(), Toast.LENGTH_SHORT)
+                Toast.makeText(context, dataNews.get(position).getUrl(), Toast.LENGTH_SHORT)
                         .show();
                 Intent intent  =new Intent(context, WebActivity.class);
-                intent.putExtra("desc",DataNews.get(position).getDesc());
-                intent.putExtra("url",DataNews.get(position).getUrl());
+                intent.putExtra("desc",dataNews.get(position).getDesc());
+                intent.putExtra("url",dataNews.get(position).getUrl());
                 context.startActivity(intent);
             }
         });
@@ -62,7 +62,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
     @Override
     public int getItemCount() {
 
-        return DataNews.size();
+        return dataNews.size();
 
     }
 

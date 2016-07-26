@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ViewPager.OnPageChangeListener {
 
     private MyFragmentAdapter fragmentAdapter;
-    private ViewPager mViewPager;
-    private List<ChangeColorIconWithText> mTabIndicators = new ArrayList<ChangeColorIconWithText>();
+    private ViewPager viewPager;
+    private List<ChangeColorIconWithText> tabIndicators = new ArrayList<ChangeColorIconWithText>();
 
 
     @Override
@@ -38,16 +38,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-        mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
+        viewPager = (ViewPager) findViewById(R.id.id_viewpager);
 
         ChangeColorIconWithText one = (ChangeColorIconWithText) findViewById(R.id.id_indicator_one);
-        mTabIndicators.add(one);
+        tabIndicators.add(one);
         ChangeColorIconWithText two = (ChangeColorIconWithText) findViewById(R.id.id_indicator_two);
-        mTabIndicators.add(two);
+        tabIndicators.add(two);
         ChangeColorIconWithText three = (ChangeColorIconWithText) findViewById(R.id.id_indicator_three);
-        mTabIndicators.add(three);
+        tabIndicators.add(three);
         ChangeColorIconWithText four = (ChangeColorIconWithText) findViewById(R.id.id_indicator_four);
-        mTabIndicators.add(four);
+        tabIndicators.add(four);
 
         one.setOnClickListener(this);
         two.setOnClickListener(this);
@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         FragmentManager fm = getSupportFragmentManager();
         fragmentAdapter = new MyFragmentAdapter(fm);
-        mViewPager.setAdapter(fragmentAdapter);
-        mViewPager.addOnPageChangeListener(this);
+        viewPager.setAdapter(fragmentAdapter);
+        viewPager.addOnPageChangeListener(this);
 
     }
 
@@ -86,23 +86,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.id_indicator_one:
-                mTabIndicators.get(0).setIconAlpha(1.0f);
-                mViewPager.setCurrentItem(0, false);
+                tabIndicators.get(0).setIconAlpha(1.0f);
+                viewPager.setCurrentItem(0, false);
                 //    setTitle(titleStrs[0]);
                 break;
             case R.id.id_indicator_two:
-                mTabIndicators.get(1).setIconAlpha(1.0f);
-                mViewPager.setCurrentItem(1, false);
+                tabIndicators.get(1).setIconAlpha(1.0f);
+                viewPager.setCurrentItem(1, false);
                 //   setTitle(titleStrs[1]);
                 break;
             case R.id.id_indicator_three:
-                mTabIndicators.get(2).setIconAlpha(1.0f);
-                mViewPager.setCurrentItem(2, false);
+                tabIndicators.get(2).setIconAlpha(1.0f);
+                viewPager.setCurrentItem(2, false);
                 //  setTitle(titleStrs[2]);
                 break;
             case R.id.id_indicator_four:
-                mTabIndicators.get(3).setIconAlpha(1.0f);
-                mViewPager.setCurrentItem(3, false);
+                tabIndicators.get(3).setIconAlpha(1.0f);
+                viewPager.setCurrentItem(3, false);
                 //   setTitle(titleStrs[3]);
                 break;
         }
@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 重置其他的TabIndicator的颜色
      */
     private void resetOtherTabs() {
-        for (int i = 0; i < mTabIndicators.size(); i++) {
-            mTabIndicators.get(i).setIconAlpha(0);
+        for (int i = 0; i < tabIndicators.size(); i++) {
+            tabIndicators.get(i).setIconAlpha(0);
         }
     }
 
@@ -123,8 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Log.e("TAG", "position = " + position + " ,positionOffset =  "
         // + positionOffset);
         if (positionOffset > 0) {
-            ChangeColorIconWithText left = mTabIndicators.get(position);
-            ChangeColorIconWithText right = mTabIndicators.get(position + 1);
+            ChangeColorIconWithText left = tabIndicators.get(position);
+            ChangeColorIconWithText right = tabIndicators.get(position + 1);
             left.setIconAlpha(1 - positionOffset);
             right.setIconAlpha(positionOffset);
         }
