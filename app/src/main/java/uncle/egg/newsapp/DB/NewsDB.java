@@ -26,6 +26,9 @@ public class NewsDB extends SQLiteOpenHelper {
                     "who varchar(10)" +                            //5 作者
                     ")";
 
+    //当前的页面,默认第一页
+    private static int pageNum = 1;
+
     public NewsDB(Context context, String name, int version) {
         super(context, name, null, version);
     }
@@ -56,9 +59,11 @@ public class NewsDB extends SQLiteOpenHelper {
     //在数据库中取出对应的数据
     //参数 需要的数据的类型，以及需要的数据的条数
     public static List<News> getDBNews(int type, int newsNum) {
+        //如果数据不够，发送请求来获取更多的数据
         int maxNum = getMaxNum();
         if(newsNum>=maxNum){
-            newsNum=maxNum;
+            FindNews.getNews(type,++pageNum);
+        //    newsNum=maxNum;
         }
 
         String strType=null;

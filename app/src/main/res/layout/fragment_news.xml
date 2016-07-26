@@ -1,17 +1,31 @@
-<com.xlf.nrl.NsRefreshLayout
-    android:id="@+id/nrl_test"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:auto_load_more="true"
-    tools:context=".activity.MainActivity">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_test"
+    <com.xlf.nrl.NsRefreshLayout
+        android:id="@+id/nrl_test"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/item_list"/>
-</com.xlf.nrl.NsRefreshLayout>
+        app:auto_load_more="true"
+       >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_test"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/item_list" />
+    </com.xlf.nrl.NsRefreshLayout>
+
+    <!--<ProgressBar-->
+        <!--android:visibility="visible"-->
+        <!--style="@android:style/Widget.ProgressBar.Inverse"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/progress_bar"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_centerHorizontal="true" />-->
+</FrameLayout>

@@ -39,7 +39,10 @@ public class FragmentImage extends Fragment implements
     private int type;
 
     //当前的页面,默认第一页
-    private int pageNum = 1;
+  //  private int pageNum = 1;
+
+    //List一次数据添加的数量
+    private int listDataAddNum = 10;
 
     //List中的数据数量
     private int listDataNum = 10;
@@ -88,18 +91,18 @@ public class FragmentImage extends Fragment implements
 
     public FragmentImage(int type) {
         this.type = type;
-        FindNews.getNews(type, 1);
-        dataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_GIRL, 10);
+      //  FindNews.getNews(type, 1);
+        dataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_GIRL, listDataNum);
     }
 
 
     //获取更多数据
     public void setFragmentData() {
         // strType = "福利";
-        FindNews.getNews(type, ++pageNum);
+  //      FindNews.getNews(type, ++pageNum);
         dataNews.clear();
         //一次多获取十条
-        listDataNum = listDataNum + 10;
+        listDataNum = listDataNum + listDataAddNum;
         dataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_GIRL, listDataNum));
         adapter.notifyDataSetChanged();
     }

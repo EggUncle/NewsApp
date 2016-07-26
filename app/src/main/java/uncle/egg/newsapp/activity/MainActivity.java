@@ -14,6 +14,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import uncle.egg.newsapp.DB.NewsDB;
 import uncle.egg.newsapp.MyApplication;
 import uncle.egg.newsapp.R;
 import uncle.egg.newsapp.fragment.FragmentNews;
@@ -56,19 +57,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         one.setIconAlpha(1.0f);
 
-
         FragmentManager fm = getSupportFragmentManager();
         fragmentAdapter = new MyFragmentAdapter(fm);
         viewPager.setAdapter(fragmentAdapter);
-        viewPager.addOnPageChangeListener(this);
+        viewPager.addOnPageChangeListener(MainActivity.this);
 
     }
 
     private void initGetNews(){
-        MyApplication.getDataAndroidNews();
-        MyApplication.getDataIOSNews();
-        MyApplication.getDataHtmlNews();
+
+//        MyApplication.getDataAndroidNews();
+//        MyApplication.getDataIOSNews();
+//        MyApplication.getDataHtmlNews();
     }
+
+
 
     @Override
     public void onClick(View v) {

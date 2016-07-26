@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -37,12 +39,13 @@ public class WebActivity extends AppCompatActivity {
                 return true;//true表示此事件在此处被处理，不需要再广播
             }
 
-            @Override   //转向错误时的处理
-            public void onReceivedError(WebView view, int errorCode,
-                                        String description, String failingUrl) {
-                // TODO Auto-generated method stub
-                Toast.makeText(WebActivity.this, "Error : " + description, Toast.LENGTH_SHORT).show();
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                Toast.makeText(WebActivity.this, "Error : " + error, Toast.LENGTH_SHORT).show();
             }
+
+
         });
     }
 
