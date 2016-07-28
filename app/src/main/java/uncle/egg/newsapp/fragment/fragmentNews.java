@@ -1,5 +1,6 @@
 package uncle.egg.newsapp.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import uncle.egg.newsapp.activity.MainActivity;
 import uncle.egg.newsapp.module.ListRecyclerAdapter;
 import uncle.egg.newsapp.module.News;
 import uncle.egg.newsapp.util.FindNews;
+import uncle.egg.newsapp.util.FindNewsByInternet;
 
 /**
  * Created by egguncle on 16.7.20.
@@ -36,6 +38,7 @@ import uncle.egg.newsapp.util.FindNews;
 public class FragmentNews extends Fragment implements
         NsRefreshLayout.NsRefreshLayoutController, NsRefreshLayout.NsRefreshLayoutListener {
 
+    private Context context;
     private boolean loadMoreEnable = true;
     private NsRefreshLayout refreshLayout;
     private RecyclerView rvTest;
@@ -43,7 +46,8 @@ public class FragmentNews extends Fragment implements
 
     //新闻消息的类型
     private int type;
-
+//当前页数
+    private int pageNum=1;
 
     //List中的数据数量
     private int listDataNum = 10;
@@ -73,6 +77,7 @@ public class FragmentNews extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // dateNews= findNewsByInternet.getData(type,1);
 
         // setFragmentData();
     }
@@ -80,6 +85,7 @@ public class FragmentNews extends Fragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
 
         view = inflater.inflate(R.layout.fragment_news, null);
         refreshLayout = (NsRefreshLayout) view.findViewById(R.id.nrl_test);
@@ -89,39 +95,20 @@ public class FragmentNews extends Fragment implements
 
         rvTest = (RecyclerView) view.findViewById(R.id.rv_test);
 
+        setFragmentData();
 
-
-        switch (type) {
-            case FindNews.FIND_NEWS_ANDROID: {
-                //      FindNews.getNews(type, 1);
-                dateNews = NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, listDataNum);
-            }
-            break;
-            case FindNews.FIND_NEWS_IOS: {
-                //    FindNews.getNews(type, 1);
-                dateNews = NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum);
-            }
-            break;
-            case FindNews.FIND_NEWS_HTML: {
-                //     FindNews.getNews(type, 1);
-                dateNews = NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum);
-            }
-            break;
-            case FindNews.FIND_NEWS_GIRL: {
-                // strType = "福利";
-            }
-            break;
-        }
-        adapter = new ListRecyclerAdapter(getActivity(), dateNews);
         rvTest.setAdapter(adapter);
 
         Log.v("MY_TAG", "--------------------------------oncreateview--------------" + type);
 
 //        MyAyncTask myAyncTask = new MyAyncTask();
 //        myAyncTask.execute();
-        Message msg = new Message();
-        msg.what = 0x123;
-        handler.sendMessage(msg);
+//        Message msg = new Message();
+//        msg.what = 0x123;
+//        handler.sendMessage(msg);
+
+
+
         return view;
     }
 
@@ -130,43 +117,57 @@ public class FragmentNews extends Fragment implements
         //   this.type = FindNews.FIND_NEWS_ANDROID;
     }
 
-    public FragmentNews(int type) {
+    public FragmentNews(int type,Context context) {
         this.type = type;
-
+        this.context = context;
+        switch (type) {
+            case FindNews.FIND_NEWS_ANDROID: {
+                dateNews = FindNewsByInternet.getAndroidData(pageNum++);
+                adapter = new ListRecyclerAdapter(context,dateNews );
+            }
+            break;
+            case FindNews.FIND_NEWS_IOS: {
+                dateNews = FindNewsByInternet.getiOSData(pageNum++);
+                adapter = new ListRecyclerAdapter(context,dateNews);
+            }
+            break;
+        }
     }
 
 
     //获取更多数据
-    public void setFragmentData() {
+    public  void setFragmentData() {
         switch (type) {
             case FindNews.FIND_NEWS_ANDROID: {
+
                 //   FindNews.getNews(type, ++pageNum);
-
-                dateNews.clear();
-
-                //一次多获取十条
-                listDataNum = listDataNum + listDataAddNum;
-                dateNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, listDataNum));
+//                //一次多获取十条
+//                listDataNum = listDataNum + listDataAddNum;
+                dateNews = FindNewsByInternet.getAndroidData(pageNum++);
+             //   dateNews.addAll(dateNews);
             }
             break;
             case FindNews.FIND_NEWS_IOS: {
                 //   FindNews.getNews(type, ++pageNum);
 
-                dateNews.clear();
+                dateNews = FindNewsByInternet.getiOSData(pageNum++);
+            //    dateNews.addAll(dateNews);
 
-                //一次多获取十条
-                listDataNum = listDataNum + listDataAddNum;
-                dateNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum));
+//                dateNews.clear();
+//
+//                //一次多获取十条
+//                listDataNum = listDataNum + listDataAddNum;
+                //     dateNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_HTML: {
                 //   FindNews.getNews(type, ++pageNum);
 
-                dateNews.clear();
-
-                //一次多获取十条
-                listDataNum = listDataNum + listDataAddNum;
-                dateNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum));
+//                dateNews.clear();
+//
+//                //一次多获取十条
+//                listDataNum = listDataNum + listDataAddNum;
+                //   dateNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_GIRL: {
@@ -175,7 +176,7 @@ public class FragmentNews extends Fragment implements
             break;
         }
 
-        adapter.notifyDataSetChanged();
+         adapter.notifyDataSetChanged();
     }
 
 

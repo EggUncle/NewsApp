@@ -95,23 +95,23 @@ public class FindNews {
                                 String desc = jsonArray.optJSONObject(i).get("desc").toString();
                                 String url = jsonArray.optJSONObject(i).get("url").toString();
                                 //若数据库中有这个干货的链接，则不添加进去,开始下一次循环 （依靠链接来判断是否重复
-                                Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from news where url = '" + url + "'", null);
-                                //依靠标题来判断是否重复
-                                // Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select desc from news where desc = " + desc, null);
-                                if (cursor.getCount() != 0) {
-                                    continue;
-                                }
-                                Cursor cursorNews = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from news ", null);
-
-                                int max_id = cursorNews.getCount() + 1;
+//                                Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from news where url = '" + url + "'", null);
+//                                //依靠标题来判断是否重复
+//                                // Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select desc from news where desc = " + desc, null);
+//                                if (cursor.getCount() != 0) {
+//                                    continue;
+//                                }
+//                                Cursor cursorNews = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from news ", null);
+//
+//                                int max_id = cursorNews.getCount() + 1;
                                 String publishedAt = jsonArray.optJSONObject(i).get("publishedAt").toString();
                                 String type = jsonArray.optJSONObject(i).get("type").toString();
 
                                 String who = jsonArray.optJSONObject(i).get("who").toString();
 
-                                MyApplication.getNewsDB().getReadableDatabase().execSQL(
-                                        "insert  into news values(?,?,?,?,?,?)"
-                                        , new String[]{max_id + "", desc, publishedAt, type, url, who});
+//                                MyApplication.getNewsDB().getReadableDatabase().execSQL(
+//                                        "insert  into news values(?,?,?,?,?,?)"
+//                                        , new String[]{max_id + "", desc, publishedAt, type, url, who});
 
                                 news.setDesc(desc);
                                 news.setPublishedAt(publishedAt);
@@ -142,80 +142,80 @@ public class FindNews {
         return dataNews;
     }
 
-    public static List<News> getTodayNews(String date) {
-
-        final String todayDate = date;
-
-        // getTodayTitle(date);
-
-//        final int idDate  = 20160727;
-        String volley_url = "http://gank.io/api/day/" + date;
-        //    String volley_url = "http://gank.io/api/day/2016/07/27";
-        Log.v(TAG, volley_url);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, volley_url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        JSONArray jsonArray;
-                        try {
-                            //若解析错误，则返回空
-//                            Boolean errorKey = jsonObject.getBoolean("error");
-//                            if(errorKey){
-//                                return;
+//    public static List<News> getTodayNews(String date) {
+//
+//        final String todayDate = date;
+//
+//        // getTodayTitle(date);
+//
+////        final int idDate  = 20160727;
+//        String volley_url = "http://gank.io/api/day/" + date;
+//        //    String volley_url = "http://gank.io/api/day/2016/07/27";
+//        Log.v(TAG, volley_url);
+//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, volley_url, null,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject jsonObject) {
+//                        JSONArray jsonArray;
+//                        try {
+//                            //若解析错误，则返回空
+////                            Boolean errorKey = jsonObject.getBoolean("error");
+////                            if(errorKey){
+////                                return;
+////                            }
+//                            jsonArray = jsonObject.getJSONObject("results").names();
+//                            JSONArray jsonArrayIndex;
+//                            //解析json数据，存入list中
+//                            for (int i = 0; i < jsonObject.getJSONObject("results").names().length(); i++) {
+//                                jsonArrayIndex = jsonObject.getJSONObject("results").getJSONArray(jsonArray.get(i).toString());
+//                                for (int j = 0; j < jsonArrayIndex.length(); j++) {
+//                                    News news = null;
+//                                    news = new News();
+//                                    String desc = jsonArrayIndex.optJSONObject(j).get("desc").toString();
+//                                    String url = jsonArrayIndex.optJSONObject(j).get("url").toString();
+//                                    Log.v(TAG, "TEST:" + desc);
+//                                    Log.v(TAG, "type:" + url);
+//                                    //url来判断是否重复
+//                                    Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from today where url = '" + url + "'", null);
+//                                    //依靠标题来判断是否重复
+//                                    //      Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select desc from news where desc = " + desc, null);
+//                                    if (cursor.getCount() != 0) {
+//                                        continue;
+//                                    }
+//                                    Cursor cursorNews = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from today ", null);
+//                                    int max_id = cursorNews.getCount() + 1;
+//                                    String publishedAt = todayDate;
+//                                    //jsonArrayIndex.optJSONObject(j).get("publishedAt").toString();
+//                                    String type = jsonArrayIndex.optJSONObject(j).get("type").toString();
+//                                    String who = jsonArrayIndex.optJSONObject(j).get("who").toString();
+//
+//                                    MyApplication.getNewsDB().getReadableDatabase().execSQL(
+//                                            "insert  into today values(?,?,?,?,?,?,?)"
+//                                            , new String[]{max_id + "", desc, publishedAt, type, url, who, ""});
+//                                    news.setDesc(desc);
+//                                    news.setPublishedAt(publishedAt);
+//                                    news.setType(type);
+//                                    news.setUrl(url);
+//                                    news.setWho(who);
+//                                    Log.v(TAG, desc + " " + url + " " + publishedAt + " " + type + " " + who);
+//                                    dataNews.add(news);
+//                                }
 //                            }
-                            jsonArray = jsonObject.getJSONObject("results").names();
-                            JSONArray jsonArrayIndex;
-                            //解析json数据，存入list中
-                            for (int i = 0; i < jsonObject.getJSONObject("results").names().length(); i++) {
-                                jsonArrayIndex = jsonObject.getJSONObject("results").getJSONArray(jsonArray.get(i).toString());
-                                for (int j = 0; j < jsonArrayIndex.length(); j++) {
-                                    News news = null;
-                                    news = new News();
-                                    String desc = jsonArrayIndex.optJSONObject(j).get("desc").toString();
-                                    String url = jsonArrayIndex.optJSONObject(j).get("url").toString();
-                                    Log.v(TAG, "TEST:" + desc);
-                                    Log.v(TAG, "type:" + url);
-                                    //url来判断是否重复
-                                    Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from today where url = '" + url + "'", null);
-                                    //依靠标题来判断是否重复
-                                    //      Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select desc from news where desc = " + desc, null);
-                                    if (cursor.getCount() != 0) {
-                                        continue;
-                                    }
-                                    Cursor cursorNews = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from today ", null);
-                                    int max_id = cursorNews.getCount() + 1;
-                                    String publishedAt = todayDate;
-                                    //jsonArrayIndex.optJSONObject(j).get("publishedAt").toString();
-                                    String type = jsonArrayIndex.optJSONObject(j).get("type").toString();
-                                    String who = jsonArrayIndex.optJSONObject(j).get("who").toString();
-
-                                    MyApplication.getNewsDB().getReadableDatabase().execSQL(
-                                            "insert  into today values(?,?,?,?,?,?,?)"
-                                            , new String[]{max_id + "", desc, publishedAt, type, url, who, ""});
-                                    news.setDesc(desc);
-                                    news.setPublishedAt(publishedAt);
-                                    news.setType(type);
-                                    news.setUrl(url);
-                                    news.setWho(who);
-                                    Log.v(TAG, desc + " " + url + " " + publishedAt + " " + type + " " + who);
-                                    dataNews.add(news);
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                             Log.v(TAG,"ERROR!!!!!!!!!!");
-                    }
-                });
-        request.setTag("newsGet");
-        MyApplication.getHttpQueues().add(request);
-        return dataNews;
-    }
-
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError volleyError) {
+//                             Log.v(TAG,"ERROR!!!!!!!!!!");
+//                    }
+//                });
+//        request.setTag("newsGet");
+//        MyApplication.getHttpQueues().add(request);
+//        return dataNews;
+//    }
+//
 
 }

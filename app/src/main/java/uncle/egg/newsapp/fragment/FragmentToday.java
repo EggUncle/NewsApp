@@ -37,8 +37,10 @@ import uncle.egg.newsapp.MyApplication;
 import uncle.egg.newsapp.R;
 
 import uncle.egg.newsapp.module.ListRecyclerAdapter;
+import uncle.egg.newsapp.module.ListRecyclerTodayAdapter;
 import uncle.egg.newsapp.module.News;
 import uncle.egg.newsapp.util.FindNews;
+import uncle.egg.newsapp.util.FindNewsByInternet;
 
 /**
  * Created by egguncle on 16.7.27.
@@ -70,17 +72,18 @@ public class FragmentToday extends Fragment {
         calendar.add(calendar.DATE, -1);//把日期往后或往前一天.整数往后推,负数往前移动
         date = calendar.getTime(); //这个时间就是日期往后推一天的结果
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        String strDate = sDateFormat.format(date);
+        final String strDate = sDateFormat.format(date);
         Log.v("TODAY", strDate);
         //FindNews.getTodayNews(date);
         // String date = "2016/07/28";
 
-        getTodayTitle(strDate);
+     //   getTodayTitle(strDate);
 
-        todayData = NewsDB.getTodayDBNews(strDate);
+        todayData = FindNewsByInternet.getTodayNews(strDate);
         for (News news : todayData) {
             if ("福利".equals(news.getType())) {
                 url = news.getUrl();
+                Log.v("GIRL_URL",url);
             }
         }
 
@@ -90,7 +93,8 @@ public class FragmentToday extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        setImgTodayGirl(url);
+                        FindNewsByInternet.setTodayImage(url,imgTodayGirl);
+                        FindNewsByInternet.getTodayTitle(strDate,todayTitle);
                     }
                 });
             }
@@ -98,7 +102,7 @@ public class FragmentToday extends Fragment {
 
 
 
-        ListRecyclerAdapter adapter = new ListRecyclerAdapter(getActivity(), todayData);
+        ListRecyclerTodayAdapter adapter = new ListRecyclerTodayAdapter(getActivity(), todayData);
         todayRecycle.setAdapter(adapter);
         return view;
     }
@@ -147,21 +151,7 @@ public class FragmentToday extends Fragment {
                             String todayDate = idDate;
 
                             todayTitle.setText(title);
-
                             Log.v("TITLE", title);
-
-                            //url来判断是否重复
-                            Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from today where title = '" + title + "'", null);
-                            //依靠标题来判断是否重复
-                            //      Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select desc from news where desc = " + desc, null);
-
-                            if (cursor.getCount() == 0) {
-                                Cursor cursorNews = MyApplication.getNewsDB().getReadableDatabase().rawQuery("select * from today ", null);
-                                int max_id = cursorNews.getCount() + 1;
-                                MyApplication.getNewsDB().getReadableDatabase().execSQL(
-                                        "insert  into today values(?,?,?,?,?,?,?)"
-                                        , new String[]{max_id + "", "", todayDate, "", "", "", title});
-                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

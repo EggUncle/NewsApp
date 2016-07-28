@@ -17,7 +17,7 @@ import uncle.egg.newsapp.util.FindNews;
  */
 public class MyApplication extends Application {
     private static RequestQueue queues;
-    private static NewsDB newsDB;
+//    private static NewsDB newsDB;
    // private static NewsDB todayDB;
 
 //    public static List<News> DataAndroidNews = new ArrayList<>();
@@ -27,13 +27,9 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                queues = Volley.newRequestQueue(getApplicationContext());
-                createDB();
-            }
-        }).start();
+        queues = Volley.newRequestQueue(getApplicationContext());
+           //     createDB();
+
 
     }
 
@@ -41,23 +37,23 @@ public class MyApplication extends Application {
         return queues;
     }
 
-    public void createDB() {
-        newsDB = new NewsDB(MyApplication.this, this.getFilesDir().toString() + "/news_db.db3", 1);
-    //    todayDB = new NewsDB(MyApplication.this, this.getFilesDir().toString() + "/news_today_db.db3", 1);
-    }
-
-    public static NewsDB getNewsDB() {
-        return newsDB;
-    }
+//    public void createDB() {
+//        newsDB = new NewsDB(MyApplication.this, this.getFilesDir().toString() + "/news_db.db3", 1);
+//    //    todayDB = new NewsDB(MyApplication.this, this.getFilesDir().toString() + "/news_today_db.db3", 1);
+//    }
+//
+//    public static NewsDB getNewsDB() {
+//        return newsDB;
+//    }
 
 //    public static NewsDB getTodayDB() {
 //        return todayDB;
 //    }
 
 
-    public static void ClearQueue(String tag) {
-        queues.cancelAll(tag);
-    }
+  //  public static void ClearQueue(String tag) {
+   //     queues.cancelAll(tag);
+    //}
 
 //    public static List<News> getDataAndroidNews() {
 //
