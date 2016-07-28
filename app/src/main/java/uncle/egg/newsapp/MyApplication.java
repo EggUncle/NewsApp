@@ -18,6 +18,7 @@ import uncle.egg.newsapp.util.FindNews;
 public class MyApplication extends Application {
     private static RequestQueue queues;
     private static NewsDB newsDB;
+   // private static NewsDB todayDB;
 
 //    public static List<News> DataAndroidNews = new ArrayList<>();
 //    public static List<News> DataIOSNews = new ArrayList<>();
@@ -40,13 +41,18 @@ public class MyApplication extends Application {
         return queues;
     }
 
-    public  void createDB(){
+    public void createDB() {
         newsDB = new NewsDB(MyApplication.this, this.getFilesDir().toString() + "/news_db.db3", 1);
+    //    todayDB = new NewsDB(MyApplication.this, this.getFilesDir().toString() + "/news_today_db.db3", 1);
     }
 
     public static NewsDB getNewsDB() {
         return newsDB;
     }
+
+//    public static NewsDB getTodayDB() {
+//        return todayDB;
+//    }
 
 
     public static void ClearQueue(String tag) {

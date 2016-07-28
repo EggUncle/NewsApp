@@ -43,30 +43,26 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
         holder.txtWho.setText(dataNews.get(position).getWho());
 
 
-
         holder.txtDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, dataNews.get(position).getUrl(), Toast.LENGTH_SHORT)
                         .show();
-                Intent intent  =new Intent(context, WebActivity.class);
-                intent.putExtra("desc",dataNews.get(position).getDesc());
-                intent.putExtra("url",dataNews.get(position).getUrl());
+                Intent intent = new Intent(context, WebActivity.class);
+                intent.putExtra("desc", dataNews.get(position).getDesc());
+                intent.putExtra("url", dataNews.get(position).getUrl());
                 context.startActivity(intent);
             }
         });
     }
 
 
-
     @Override
     public int getItemCount() {
 
-        return dataNews.size();
+        return dataNews == null ? 0 : dataNews.size();
 
     }
-
-
 
 
     static class MyViewHolder extends RecyclerView.ViewHolder {

@@ -26,6 +26,17 @@ public class NewsDB extends SQLiteOpenHelper {
                     "who varchar(10)" +                            //5 作者
                     ")";
 
+    final String CREATE_TODAY_TABLE =
+            "create table today(" +
+                    "_id integer primary key autoincrement," +     //0 新闻日期
+                    "desc varchar(30)," +                           //1 标题
+                    "published_at varchar(20)," +                //2 发布时间
+                    "type varchar(10)," +                         //3 类型
+                    "url varchar(50)," +                          //4 链接
+                    "who varchar(10)," +                            //5 作者
+                    "title varchar(50)"+                         //6今日标题
+                    ")";
+
     //当前的页面,默认第一页
     private static int pageNum = 1;
 
@@ -37,6 +48,7 @@ public class NewsDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_NEWS_TABLE);
+        db.execSQL(CREATE_TODAY_TABLE);
     }
 
     @Override
@@ -106,6 +118,33 @@ public class NewsDB extends SQLiteOpenHelper {
             news.setWho(cursor.getString(5).toString());
             listData.add(news);
 
+        }
+
+        return listData;
+    }
+
+    //在数据库中取出今日热点的数据
+    //参数 需要的数据的类型，以及需要的数据的条数
+    public static List<News> getTodayDBNews(String date) {
+        List<News> listData = new ArrayList<>();
+        Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery(
+                "select * from today where published_at = ?", new String[]{date});
+        if (cursor.getCount()==0){
+            //如果数据不够，发送请求来获取更多的数据
+            FindNews.getTodayNews(date);
+         //   return listData;
+        }
+
+
+
+        while(cursor.moveToNext()){
+            News news  = new News();
+            news.setDesc(cursor.getString(1).toString());
+            news.setPublishedAt(cursor.getString(2).toString());
+            news.setType(cursor.getString(3).toString());
+            news.setUrl(cursor.getString(4).toString());
+            news.setWho(cursor.getString(5).toString());
+            listData.add(news);
         }
 
         return listData;

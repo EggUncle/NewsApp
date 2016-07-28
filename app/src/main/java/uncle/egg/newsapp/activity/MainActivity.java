@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 
@@ -47,13 +49,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tabIndicators.add(two);
         ChangeColorIconWithText three = (ChangeColorIconWithText) findViewById(R.id.id_indicator_three);
         tabIndicators.add(three);
-        ChangeColorIconWithText four = (ChangeColorIconWithText) findViewById(R.id.id_indicator_four);
-        tabIndicators.add(four);
+//        ChangeColorIconWithText four = (ChangeColorIconWithText) findViewById(R.id.id_indicator_four);
+//        tabIndicators.add(four);
 
         one.setOnClickListener(this);
         two.setOnClickListener(this);
         three.setOnClickListener(this);
-        four.setOnClickListener(this);
+      //  four.setOnClickListener(this);
 
         one.setIconAlpha(1.0f);
 
@@ -103,11 +105,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 viewPager.setCurrentItem(2, false);
                 //  setTitle(titleStrs[2]);
                 break;
-            case R.id.id_indicator_four:
-                tabIndicators.get(3).setIconAlpha(1.0f);
-                viewPager.setCurrentItem(3, false);
-                //   setTitle(titleStrs[3]);
-                break;
+//            case R.id.id_indicator_four:
+//                tabIndicators.get(3).setIconAlpha(1.0f);
+//                viewPager.setCurrentItem(3, false);
+//                //   setTitle(titleStrs[3]);
+//                break;
         }
     }
 
@@ -134,17 +136,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private String[] titles = new String[]{"今日热点","Android","iOS"};
+
     @Override
     public void onPageSelected(int position) {
         // TODO Auto-generated method stub
         //  Log.v("MT",position+"");
-
+        setTitle(titles[position]);
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem item = menu.add(0, 0, 0, "历史");
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return true;
     }
 
 }

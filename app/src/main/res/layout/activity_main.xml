@@ -26,8 +26,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="5dp"
-            hyman:my_icon="@drawable/android"
-            hyman:text="Android"
+            hyman:my_icon="@drawable/today"
+            hyman:text=" "
             hyman:text_size="12sp"
             hyman:my_color="@color/colorPrimary" />
 
@@ -37,8 +37,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="5dp"
-            hyman:my_icon="@drawable/ios"
-            hyman:text="IOS"
+            hyman:my_icon="@drawable/android"
+            hyman:text=" "
             hyman:text_size="12sp"
             hyman:my_color="@color/colorPrimary" />
 
@@ -48,21 +48,21 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="5dp"
-            hyman:my_icon="@drawable/html"
-            hyman:text="前端"
+            hyman:my_icon="@drawable/ios"
+            hyman:text=" "
             hyman:text_size="12sp"
             hyman:my_color="@color/colorPrimary"/>
 
-        <uncle.egg.newsapp.module.ChangeColorIconWithText
-            android:id="@+id/id_indicator_four"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:padding="5dp"
-            hyman:my_icon="@drawable/girl"
-            hyman:text="妹子"
-            hyman:text_size="12sp"
-            hyman:my_color="@color/colorPrimary" />
+        <!--<uncle.egg.newsapp.module.ChangeColorIconWithText-->
+            <!--android:id="@+id/id_indicator_four"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:padding="5dp"-->
+            <!--hyman:my_icon="@drawable/girl"-->
+            <!--hyman:text="妹子"-->
+            <!--hyman:text_size="12sp"-->
+            <!--hyman:my_color="@color/colorPrimary" />-->
     </LinearLayout>
 
 </LinearLayout>

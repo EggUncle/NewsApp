@@ -12,7 +12,7 @@ import uncle.egg.newsapp.util.FindNews;
  * Created by 西域战神阿凡提 on 2016/1/19.
  */
 public class MyFragmentAdapter extends FragmentStatePagerAdapter {
-    private Fragment[] fragments = new Fragment[4];
+    private Fragment[] fragments = new Fragment[3];
 
 
     public MyFragmentAdapter(FragmentManager fm) {
@@ -21,10 +21,10 @@ public class MyFragmentAdapter extends FragmentStatePagerAdapter {
     }
 
     private void init() {
-        fragments[0] = new FragmentNews(FindNews.FIND_NEWS_ANDROID);
-        fragments[1] = new FragmentNews(FindNews.FIND_NEWS_IOS);
-        fragments[2] = new FragmentNews(FindNews.FIND_NEWS_HTML);
-        fragments[3] = new FragmentImage(FindNews.FIND_NEWS_GIRL);
+        fragments[0] = new FragmentToday();
+        fragments[1] = new FragmentNews(FindNews.FIND_NEWS_ANDROID);
+      //  fragments[2] = new FragmentNews(FindNews.FIND_NEWS_HTML);
+        fragments[2] = new FragmentNews(FindNews.FIND_NEWS_IOS);
 
     }
 

@@ -1,5 +1,6 @@
 package uncle.egg.newsapp.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -9,16 +10,16 @@ import android.widget.ImageView;
 
 import uncle.egg.newsapp.R;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends Activity {
 
 
 
-    private final int WAIT_TIME = 1000; // 延迟六秒
+    private final int WAIT_TIME = 1000; // 延迟1秒
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+      //  requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_start);
 
 

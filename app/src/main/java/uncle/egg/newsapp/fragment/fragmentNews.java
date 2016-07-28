@@ -1,7 +1,10 @@
 package uncle.egg.newsapp.fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
@@ -22,6 +25,7 @@ import java.util.zip.Inflater;
 
 import uncle.egg.newsapp.DB.NewsDB;
 import uncle.egg.newsapp.R;
+import uncle.egg.newsapp.activity.MainActivity;
 import uncle.egg.newsapp.module.ListRecyclerAdapter;
 import uncle.egg.newsapp.module.News;
 import uncle.egg.newsapp.util.FindNews;
@@ -35,11 +39,10 @@ public class FragmentNews extends Fragment implements
     private boolean loadMoreEnable = true;
     private NsRefreshLayout refreshLayout;
     private RecyclerView rvTest;
-    private ProgressBar progressBar;
+//    private ProgressBar progressBar;
 
     //新闻消息的类型
     private int type;
-
 
 
     //List中的数据数量
@@ -55,62 +58,70 @@ public class FragmentNews extends Fragment implements
 
     private ListRecyclerAdapter adapter;
 
+    private Handler handler = new Handler() {
+        @Override
+        public String getMessageName(Message message) {
+            if (message.what == 0x123) {
+                Log.v("MY_TAG", "--------------------------------handler--------------" + type);
+                setFragmentData();
+            }
+            return super.getMessageName(message);
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                switch (type) {
-                    case FindNews.FIND_NEWS_ANDROID: {
-                  //      FindNews.getNews(type, 1);
-                        dateNews = NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, listDataNum);
-                    }
-                    break;
-                    case FindNews.FIND_NEWS_IOS: {
-                    //    FindNews.getNews(type, 1);
-                       dateNews = NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum);
-                    }
-                    break;
-                    case FindNews.FIND_NEWS_HTML: {
-                   //     FindNews.getNews(type, 1);
-                       dateNews = NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum);
-                    }
-                    break;
-                    case FindNews.FIND_NEWS_GIRL: {
-                        // strType = "福利";
-                    }
-                    break;
-                }
-            }
-        }).start();
-
 
         // setFragmentData();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_news, null);
         refreshLayout = (NsRefreshLayout) view.findViewById(R.id.nrl_test);
-     //   progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        //   progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         refreshLayout.setRefreshLayoutController(this);
         refreshLayout.setRefreshLayoutListener(this);
 
         rvTest = (RecyclerView) view.findViewById(R.id.rv_test);
+
+
+
+        switch (type) {
+            case FindNews.FIND_NEWS_ANDROID: {
+                //      FindNews.getNews(type, 1);
+                dateNews = NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, listDataNum);
+            }
+            break;
+            case FindNews.FIND_NEWS_IOS: {
+                //    FindNews.getNews(type, 1);
+                dateNews = NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum);
+            }
+            break;
+            case FindNews.FIND_NEWS_HTML: {
+                //     FindNews.getNews(type, 1);
+                dateNews = NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum);
+            }
+            break;
+            case FindNews.FIND_NEWS_GIRL: {
+                // strType = "福利";
+            }
+            break;
+        }
         adapter = new ListRecyclerAdapter(getActivity(), dateNews);
         rvTest.setAdapter(adapter);
 
-
+        Log.v("MY_TAG", "--------------------------------oncreateview--------------" + type);
 
 //        MyAyncTask myAyncTask = new MyAyncTask();
 //        myAyncTask.execute();
-
-        Log.v("MY_TAG", "--------------------------------oncreateview--------------" + type);
-
+        Message msg = new Message();
+        msg.what = 0x123;
+        handler.sendMessage(msg);
         return view;
     }
 
@@ -121,7 +132,7 @@ public class FragmentNews extends Fragment implements
 
     public FragmentNews(int type) {
         this.type = type;
-        
+
     }
 
 
@@ -129,24 +140,30 @@ public class FragmentNews extends Fragment implements
     public void setFragmentData() {
         switch (type) {
             case FindNews.FIND_NEWS_ANDROID: {
-             //   FindNews.getNews(type, ++pageNum);
+                //   FindNews.getNews(type, ++pageNum);
+
                 dateNews.clear();
+
                 //一次多获取十条
                 listDataNum = listDataNum + listDataAddNum;
                 dateNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_ANDROID, listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_IOS: {
-             //   FindNews.getNews(type, ++pageNum);
+                //   FindNews.getNews(type, ++pageNum);
+
                 dateNews.clear();
+
                 //一次多获取十条
                 listDataNum = listDataNum + listDataAddNum;
                 dateNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_HTML: {
-             //   FindNews.getNews(type, ++pageNum);
+                //   FindNews.getNews(type, ++pageNum);
+
                 dateNews.clear();
+
                 //一次多获取十条
                 listDataNum = listDataNum + listDataAddNum;
                 dateNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum));
@@ -202,50 +219,4 @@ public class FragmentNews extends Fragment implements
         }, 1000);
     }
 
-    //使用异步加载数据
-    //第一个参数：启动任务时输入的参数类型.
-    //第二个参数：后台任务执行中返回进度值的类型.
-    //第三个参数：后台任务执行完成后返回结果的类型.
-    class MyAyncTask extends AsyncTask<Void, Integer, List<News>> {
-
-
-
-        public MyAyncTask() {
-            super();
-        }
-
-
-        @Override
-        protected void onPostExecute(List<News> news) {
-            //执行后返回值
-            super.onPostExecute(news);
-            progressBar.setVisibility(View.GONE);
-            //  my_list.setAdapter(myListAdapter);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            //执行前的初始化操作
-            super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            //更新时调用的操作
-            //   list_name_data= setListData();
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected List<News> doInBackground(Void... params) {
-            //后台加载时的操作
-            //   setListData();
-
-
-
-
-            return null;
-        }
-    }
 }
