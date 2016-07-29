@@ -4,38 +4,34 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import uncle.egg.newsapp.R;
 import uncle.egg.newsapp.activity.WebActivity;
-import uncle.egg.newsapp.util.FindNews;
 
-
-public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.MyViewHolder> {
+/**
+ * Created by egguncle on 16.7.29.
+ */
+public class ListHistoryAdapter  extends RecyclerView.Adapter<ListHistoryAdapter.MyViewHolder> {
 
     private Context context;
     private List<News> dataNews;
 
-    public ListRecyclerAdapter(Context context, List<News> dataNews) {
+    public ListHistoryAdapter(Context context, List<News> dataNews) {
         this.context = context;
         this.dataNews = dataNews;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_list,
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.head_layout,
                 parent, false));
     }
 
@@ -46,9 +42,8 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
             return;
         }
 
-        holder.txtDesc.setText(dataNews.get(position).getDesc());
-        holder.txtPublishedAt.setText(dataNews.get(position).getPublishedAt().substring(0, 10));
-        holder.txtWho.setText(dataNews.get(position).getWho());
+        holder.todayTitle.setText(dataNews.get(position).getDesc());
+
 
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -67,25 +62,20 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
 
     @Override
     public int getItemCount() {
-
         return dataNews == null ? 0 : dataNews.size();
-
     }
 
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-
-        CardView cardView;
-        TextView txtDesc;
-        TextView txtPublishedAt;
-        TextView txtWho;
+         CardView cardView;
+         ImageView imgTodayGirl;
+         TextView todayTitle;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            txtDesc = (TextView) itemView.findViewById(R.id.txt_desc);
-            txtPublishedAt = (TextView) itemView.findViewById(R.id.txt_published);
-            txtWho = (TextView) itemView.findViewById(R.id.txt_who);
-            cardView = (CardView) itemView.findViewById(R.id.card_view);
+            imgTodayGirl = (ImageView) itemView.findViewById(R.id.img_today_girl);
+            todayTitle = (TextView) itemView.findViewById(R.id.today_title);
+            cardView = (CardView) itemView.findViewById(R.id.img_card_view);
         }
     }
 }

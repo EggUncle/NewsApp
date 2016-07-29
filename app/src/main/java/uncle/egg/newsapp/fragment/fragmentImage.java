@@ -91,8 +91,8 @@ public class FragmentImage extends Fragment implements
 
     public FragmentImage(int type) {
         this.type = type;
-      //  FindNews.getNews(type, 1);
-        dataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_GIRL, listDataNum);
+        dataNews= FindNews.getNews(type, 1);
+       // dataNews = NewsDB.getDBNews(FindNews.FIND_NEWS_GIRL, listDataNum);
     }
 
 
@@ -103,7 +103,7 @@ public class FragmentImage extends Fragment implements
         dataNews.clear();
         //一次多获取十条
         listDataNum = listDataNum + listDataAddNum;
-        dataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_GIRL, listDataNum));
+  //      dataNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_GIRL, listDataNum));
         adapter.notifyDataSetChanged();
     }
 

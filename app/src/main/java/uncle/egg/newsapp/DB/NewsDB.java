@@ -56,97 +56,97 @@ public class NewsDB extends SQLiteOpenHelper {
 
     }
 
-    //获取数据库的数据数量
-    public static int getMaxNum() {
-
-        Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("SELECT COUNT(*) FROM news", null);
-        //游标移到第一条记录准备获取数据
-        //    int count = cursor.getCount();
-        cursor.moveToFirst();
-
-        int maxNum = cursor.getInt(0);
-        return maxNum;
-    }
+//    //获取数据库的数据数量
+//    public static int getMaxNum() {
+//
+//        Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery("SELECT COUNT(*) FROM news", null);
+//        //游标移到第一条记录准备获取数据
+//        //    int count = cursor.getCount();
+//        cursor.moveToFirst();
+//
+//        int maxNum = cursor.getInt(0);
+//        return maxNum;
+//    }
 
     //在数据库中取出对应的数据
     //参数 需要的数据的类型，以及需要的数据的条数
-    public static List<News> getDBNews(int type, int newsNum) {
-        //如果数据不够，发送请求来获取更多的数据
-        int maxNum = getMaxNum();
-        if(newsNum>=maxNum){
-            FindNews.getNews(type,++pageNum);
-        //    newsNum=maxNum;
-        }
-
-        String strType=null;
-        switch (type) {
-            case FindNews.FIND_NEWS_ANDROID: {
-              strType="Android";
-            }
-            break;
-            case FindNews.FIND_NEWS_IOS: {
-                strType="iOS";
-            }
-            break;
-            case FindNews.FIND_NEWS_HTML: {
-                strType="前端";
-            }
-            break;
-            case FindNews.FIND_NEWS_GIRL: {
-                 strType = "福利";
-            }
-            break;
-        }
-
-        List<News> listData = new ArrayList<>();
-
-      //  select * from news limit 5
-        Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery(
-                "select * from news where type = ? limit ?", new String[]{strType,newsNum+""});
-        if (cursor==null){
-            return listData;
-        }
-
-
-
-       while(cursor.moveToNext()){
-            News news  = new News();
-            news.setDesc(cursor.getString(1).toString());
-            news.setPublishedAt(cursor.getString(2).toString());
-            news.setType(cursor.getString(3).toString());
-            news.setUrl(cursor.getString(4).toString());
-            news.setWho(cursor.getString(5).toString());
-            listData.add(news);
-
-        }
-
-        return listData;
-    }
-
-    //在数据库中取出今日热点的数据
-    //参数 需要的数据的类型，以及需要的数据的条数
-    public static List<News> getTodayDBNews(String date) {
-        List<News> listData = new ArrayList<>();
-        Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery(
-                "select * from today where published_at = ?", new String[]{date});
-        if (cursor.getCount()==0){
-            //如果数据不够，发送请求来获取更多的数据
-            FindNews.getTodayNews(date);
-         //   return listData;
-        }
-
-
-
-        while(cursor.moveToNext()){
-            News news  = new News();
-            news.setDesc(cursor.getString(1).toString());
-            news.setPublishedAt(cursor.getString(2).toString());
-            news.setType(cursor.getString(3).toString());
-            news.setUrl(cursor.getString(4).toString());
-            news.setWho(cursor.getString(5).toString());
-            listData.add(news);
-        }
-
-        return listData;
-    }
+//    public static List<News> getDBNews(int type, int newsNum) {
+//        //如果数据不够，发送请求来获取更多的数据
+//        int maxNum = getMaxNum();
+//        if(newsNum>=maxNum){
+//            FindNews.getNews(type,++pageNum);
+//        //    newsNum=maxNum;
+//        }
+//
+//        String strType=null;
+//        switch (type) {
+//            case FindNews.FIND_NEWS_ANDROID: {
+//              strType="Android";
+//            }
+//            break;
+//            case FindNews.FIND_NEWS_IOS: {
+//                strType="iOS";
+//            }
+//            break;
+//            case FindNews.FIND_NEWS_HTML: {
+//                strType="前端";
+//            }
+//            break;
+//            case FindNews.FIND_NEWS_GIRL: {
+//                 strType = "福利";
+//            }
+//            break;
+//        }
+//
+//        List<News> listData = new ArrayList<>();
+//
+//      //  select * from news limit 5
+//        Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery(
+//                "select * from news where type = ? limit ?", new String[]{strType,newsNum+""});
+//        if (cursor==null){
+//            return listData;
+//        }
+//
+//
+//
+//       while(cursor.moveToNext()){
+//            News news  = new News();
+//            news.setDesc(cursor.getString(1).toString());
+//            news.setPublishedAt(cursor.getString(2).toString());
+//            news.setType(cursor.getString(3).toString());
+//            news.setUrl(cursor.getString(4).toString());
+//            news.setWho(cursor.getString(5).toString());
+//            listData.add(news);
+//
+//        }
+//
+//        return listData;
+//    }
+//
+//    //在数据库中取出今日热点的数据
+//    //参数 需要的数据的类型，以及需要的数据的条数
+//    public static List<News> getTodayDBNews(String date) {
+//        List<News> listData = new ArrayList<>();
+//        Cursor cursor = MyApplication.getNewsDB().getReadableDatabase().rawQuery(
+//                "select * from today where published_at = ?", new String[]{date});
+//        if (cursor.getCount()==0){
+//            //如果数据不够，发送请求来获取更多的数据
+//            FindNews.getTodayNews(date);
+//         //   return listData;
+//        }
+//
+//
+//
+//        while(cursor.moveToNext()){
+//            News news  = new News();
+//            news.setDesc(cursor.getString(1).toString());
+//            news.setPublishedAt(cursor.getString(2).toString());
+//            news.setType(cursor.getString(3).toString());
+//            news.setUrl(cursor.getString(4).toString());
+//            news.setWho(cursor.getString(5).toString());
+//            listData.add(news);
+//        }
+//
+//        return listData;
+//    }
 }

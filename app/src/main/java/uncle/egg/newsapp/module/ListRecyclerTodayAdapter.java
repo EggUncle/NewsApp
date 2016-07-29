@@ -1,5 +1,11 @@
 package uncle.egg.newsapp.module;
 
+/**
+ * Created by egguncle on 16.7.29.
+ */
+
+
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -23,12 +29,12 @@ import uncle.egg.newsapp.activity.WebActivity;
 import uncle.egg.newsapp.util.FindNews;
 
 
-public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.MyViewHolder> {
+public class ListRecyclerTodayAdapter extends RecyclerView.Adapter<ListRecyclerTodayAdapter.MyViewHolder> {
 
     private Context context;
     private List<News> dataNews;
 
-    public ListRecyclerAdapter(Context context, List<News> dataNews) {
+    public ListRecyclerTodayAdapter(Context context, List<News> dataNews) {
         this.context = context;
         this.dataNews = dataNews;
     }
@@ -46,8 +52,10 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
             return;
         }
 
+
+
         holder.txtDesc.setText(dataNews.get(position).getDesc());
-        holder.txtPublishedAt.setText(dataNews.get(position).getPublishedAt().substring(0, 10));
+        holder.txtPublishedAt.setText(dataNews.get(position).getType());
         holder.txtWho.setText(dataNews.get(position).getWho());
 
 
@@ -68,17 +76,18 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
     @Override
     public int getItemCount() {
 
-        return dataNews == null ? 0 : dataNews.size();
+        Log.v("getItemCount",dataNews.size()+"");
+        return dataNews == null ? 0 : dataNews.size()-2;
 
     }
 
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cardView;
         TextView txtDesc;
         TextView txtPublishedAt;
         TextView txtWho;
+        CardView cardView;
 
         public MyViewHolder(View itemView) {
             super(itemView);

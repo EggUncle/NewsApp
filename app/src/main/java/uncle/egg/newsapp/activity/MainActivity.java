@@ -1,6 +1,7 @@
 package uncle.egg.newsapp.activity;
 
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -55,24 +56,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         one.setOnClickListener(this);
         two.setOnClickListener(this);
         three.setOnClickListener(this);
-      //  four.setOnClickListener(this);
+        //  four.setOnClickListener(this);
 
         one.setIconAlpha(1.0f);
 
         FragmentManager fm = getSupportFragmentManager();
-        fragmentAdapter = new MyFragmentAdapter(fm);
+        fragmentAdapter = new MyFragmentAdapter(fm, this);
         viewPager.setAdapter(fragmentAdapter);
         viewPager.addOnPageChangeListener(MainActivity.this);
 
     }
 
-    private void initGetNews(){
+    private void initGetNews() {
 
 //        MyApplication.getDataAndroidNews();
 //        MyApplication.getDataIOSNews();
 //        MyApplication.getDataHtmlNews();
     }
-
 
 
     @Override
@@ -136,14 +136,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private String[] titles = new String[]{"今日热点","Android","iOS"};
+    private String[] titles = new String[]{"今日热点", "Android", "iOS"};
 
     @Override
     public void onPageSelected(int position) {
         // TODO Auto-generated method stub
         //  Log.v("MT",position+"");
         setTitle(titles[position]);
+        if (position == 1 || position == 2) {
+            fragmentAdapter.setFragmentsData((FragmentNews) fragmentAdapter.getItem(position));
+        }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(MainActivity.this,HistoryActivity.class);
+        startActivity(intent);
+        return true;
+    }
+
 
     @Override
     public void onPageScrollStateChanged(int state) {
