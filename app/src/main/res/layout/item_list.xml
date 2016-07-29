@@ -1,48 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:orientation="vertical">
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:id="@+id/card_view"
+    android:foreground="@drawable/card_foreground"
+    card_view:cardCornerRadius="4dp">
 
-    <TextView
-        android:textSize="18sp"
-        android:id="@+id/txt_desc"
-        android:text="标题"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:paddingTop="10dp"
-        android:paddingBottom="5dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
+
         <TextView
-            android:textSize="13sp"
-            android:text="时间"
+            android:id="@+id/txt_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txt_published"
-            android:layout_weight="1"
-            />
-        <TextView
-            android:textSize="13sp"
-            android:text="作者"
-            android:layout_width="wrap_content"
+            android:text="标题"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txt_who"
-            />
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/txt_published"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="时间"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txt_who"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="作者"
+                android:textSize="12sp" />
+        </LinearLayout>
+
     </LinearLayout>
-<View
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:background="#ededed"
-    />
-</LinearLayout>
 
 
-
+</android.support.v7.widget.CardView>

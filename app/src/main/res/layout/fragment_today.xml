@@ -1,51 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
+
+    <uncle.egg.newsapp.module.XCRecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/today_recycle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <!--<android.support.v7.widget.RecyclerView-->
+    <!--android:id="@+id/today_recycle"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layoutManager="LinearLayoutManager"-->
+    <!--tools:listitem="@layout/item_list"-->
+    <!--android:layout_weight="1"></android.support.v7.widget.RecyclerView>-->
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/img_today_girl"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/ic_launcher" />
-
-                <TextView
-                    android:id="@+id/today_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:background="#aaffffff"
-                    android:gravity="center|bottom"
-                    android:padding="5dp"
-                    android:textSize="17sp" />
-            </FrameLayout>
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/today_recycle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="LinearLayoutManager"
-                tools:listitem="@layout/item_list"
-                android:layout_weight="1"></android.support.v7.widget.RecyclerView>
-        </LinearLayout>
-    </ScrollView>
 
 </LinearLayout>

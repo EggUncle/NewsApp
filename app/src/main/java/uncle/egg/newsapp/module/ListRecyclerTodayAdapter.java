@@ -8,6 +8,7 @@ package uncle.egg.newsapp.module;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,12 +52,14 @@ public class ListRecyclerTodayAdapter extends RecyclerView.Adapter<ListRecyclerT
             return;
         }
 
+
+
         holder.txtDesc.setText(dataNews.get(position).getDesc());
         holder.txtPublishedAt.setText(dataNews.get(position).getType());
         holder.txtWho.setText(dataNews.get(position).getWho());
 
 
-        holder.txtDesc.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, dataNews.get(position).getUrl(), Toast.LENGTH_SHORT)
@@ -73,6 +76,7 @@ public class ListRecyclerTodayAdapter extends RecyclerView.Adapter<ListRecyclerT
     @Override
     public int getItemCount() {
 
+        Log.v("getItemCount",dataNews.size()+"");
         return dataNews == null ? 0 : dataNews.size()-2;
 
     }
@@ -83,12 +87,14 @@ public class ListRecyclerTodayAdapter extends RecyclerView.Adapter<ListRecyclerT
         TextView txtDesc;
         TextView txtPublishedAt;
         TextView txtWho;
+        CardView cardView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             txtDesc = (TextView) itemView.findViewById(R.id.txt_desc);
             txtPublishedAt = (TextView) itemView.findViewById(R.id.txt_published);
             txtWho = (TextView) itemView.findViewById(R.id.txt_who);
+            cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
     }
 }

@@ -37,6 +37,7 @@ public class FindNewsByInternet {
     private static List<News> androidData = new ArrayList<>();
     private static List<News> iOSData = new ArrayList<>();
     private static List<News> todayData= new ArrayList<>();
+    private static List<News> historyData = new ArrayList<>();
 
     public static List<News> getAndroidData(int page) {
         String volley_url = "http://gank.io/api/search/query/listview/category/Android/count/10/page/" + page;
@@ -143,64 +144,6 @@ public class FindNewsByInternet {
         return iOSData;
     }
 
-    public List<News> getData(int type, int page) {
-        final List<News> dataNews = new ArrayList<>();
-        String volley_url = getUrl(type, page);
-
-
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, volley_url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        JSONArray jsonArray;
-                        try {
-                            //若解析错误，则返回空
-//                            Boolean errorKey = jsonObject.getBoolean("error");
-//                            if(errorKey){
-//                                return;
-//                            }
-                            jsonArray = jsonObject.getJSONArray("results");
-
-                            //             Log.v(TAG, jsonArray.length() + "  jsonArray.length()");
-
-                            //解析json数据，存入list中
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                News news = null;
-                                news = new News();
-                                String desc = jsonArray.optJSONObject(i).get("desc").toString();
-                                String url = jsonArray.optJSONObject(i).get("url").toString();
-                                String publishedAt = jsonArray.optJSONObject(i).get("publishedAt").toString();
-                                String type = jsonArray.optJSONObject(i).get("type").toString();
-                                String who = jsonArray.optJSONObject(i).get("who").toString();
-                                news.setDesc(desc);
-                                news.setPublishedAt(publishedAt);
-                                news.setType(type);
-                                news.setUrl(url);
-                                news.setWho(who);
-
-
-                                dataNews.add(news);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-
-                    }
-                });
-
-        request.setTag("newsGet");
-        MyApplication.getHttpQueues().add(request);
-        //  Log.v("MY_TAA","FindNews:"+DataNews.size());
-        return dataNews;
-    }
 
     private static String getUrl(int type, int page) {
         String strType = null;
@@ -285,13 +228,9 @@ public class FindNewsByInternet {
         MyApplication.getHttpQueues().add(imageRequest);
     }
 
-        public static List<News> getTodayNews(String date) {
+    public static List<News> getTodayNews(String date) {
 
         final String todayDate = date;
-
-        // getTodayTitle(date);
-
-//        final int idDate  = 20160727;
         String volley_url = "http://gank.io/api/day/" + date;
         //    String volley_url = "http://gank.io/api/day/2016/07/27";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, volley_url, null,
@@ -300,11 +239,6 @@ public class FindNewsByInternet {
                     public void onResponse(JSONObject jsonObject) {
                         JSONArray jsonArray;
                         try {
-                            //若解析错误，则返回空
-//                            Boolean errorKey = jsonObject.getBoolean("error");
-//                            if(errorKey){
-//                                return;
-//                            }
                             jsonArray = jsonObject.getJSONObject("results").names();
                             JSONArray jsonArrayIndex;
                             //解析json数据，存入list中
@@ -343,5 +277,44 @@ public class FindNewsByInternet {
         request.setTag("newsGet");
         MyApplication.getHttpQueues().add(request);
         return todayData;
+    }
+
+    public static List<News> getHistoryNews(int num){
+        String volley_url ="http://gank.io/api/history/content/"+num+"/1";
+        //    String volley_url = "http://gank.io/api/day/2016/07/27";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, volley_url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        JSONArray jsonArray;
+                        try {
+                            //若解析错误，则返回空
+//                            Boolean errorKey = jsonObject.getBoolean("error");
+//                            if(errorKey){
+//                                return;
+//                            }
+                            jsonArray = jsonObject.getJSONArray("results");
+                            for(int i = 0;i<jsonArray.length();i++){
+                                News news = new News();
+                                String title = jsonArray.optJSONObject(i).getString("title");
+                                news.setDesc(title);
+                                historyData.add(news);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+        request.setTag("newsGet");
+        MyApplication.getHttpQueues().add(request);
+        return historyData;
     }
 }

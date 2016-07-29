@@ -15,7 +15,7 @@ import uncle.egg.newsapp.util.FindNews;
 public class MyFragmentAdapter extends FragmentStatePagerAdapter {
     private Fragment[] fragments = new Fragment[3];
 
-    private Context context;
+    //private Context context;
 
     public MyFragmentAdapter(FragmentManager fm, Context context) {
         super(fm);
@@ -23,7 +23,7 @@ public class MyFragmentAdapter extends FragmentStatePagerAdapter {
     }
 
     private void init(Context context) {
-        fragments[0] = new FragmentToday();
+        fragments[0] = new FragmentToday(context);
         fragments[1] = new FragmentNews(FindNews.FIND_NEWS_ANDROID, context);
         //  fragments[2] = new FragmentNews(FindNews.FIND_NEWS_HTML);
         fragments[2] = new FragmentNews(FindNews.FIND_NEWS_IOS, context);

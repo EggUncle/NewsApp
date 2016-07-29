@@ -1,6 +1,7 @@
 package uncle.egg.newsapp.activity;
 
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -146,6 +147,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fragmentAdapter.setFragmentsData((FragmentNews) fragmentAdapter.getItem(position));
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(MainActivity.this,HistoryActivity.class);
+        startActivity(intent);
+        return true;
+    }
+
 
     @Override
     public void onPageScrollStateChanged(int state) {
