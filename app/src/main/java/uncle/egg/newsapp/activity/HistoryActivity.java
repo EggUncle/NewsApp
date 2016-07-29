@@ -1,13 +1,9 @@
 package uncle.egg.newsapp.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.xlf.nrl.NsRefreshLayout;
 
@@ -15,10 +11,7 @@ import java.util.List;
 
 import uncle.egg.newsapp.R;
 import uncle.egg.newsapp.module.ListHistoryAdapter;
-import uncle.egg.newsapp.module.ListRecyclerAdapter;
-import uncle.egg.newsapp.module.ListRecyclerTodayAdapter;
 import uncle.egg.newsapp.module.News;
-import uncle.egg.newsapp.util.FindNews;
 import uncle.egg.newsapp.util.FindNewsByInternet;
 
 public class HistoryActivity extends AppCompatActivity implements
@@ -35,10 +28,10 @@ public class HistoryActivity extends AppCompatActivity implements
     private int pageNum = 1;
 
     //List中的数据数量
-    private int listDataNum = 10;
+    private int listDataNum = 5;
 
     //List一次数据添加的数量
-    private int listDataAddNum = 10;
+    private int listDataAddNum = 5;
 
 
     private List<News> dateNews;
@@ -54,21 +47,20 @@ public class HistoryActivity extends AppCompatActivity implements
     }
 
     private void init() {
-        dateNews = FindNewsByInternet.getHistoryNews(5);
+        dateNews = FindNewsByInternet.getHistoryNews(listDataNum,pageNum);
         adapter = new ListHistoryAdapter(this, dateNews);
         refreshLayout = (NsRefreshLayout)findViewById(R.id.nrl_test);
         rvTest = (RecyclerView)findViewById(R.id.rv_test);
-
         rvTest.setAdapter(adapter);
         refreshLayout.setRefreshLayoutController(this);
         refreshLayout.setRefreshLayoutListener(this);
-        setFragmentData();
+     //   setFragmentData();
     }
 
 
     //获取更多数据
     public void setFragmentData() {
-        dateNews = FindNewsByInternet.getHistoryNews(5);
+        dateNews = FindNewsByInternet.getHistoryNews(listDataNum,++pageNum);
         adapter.notifyDataSetChanged();
     }
 

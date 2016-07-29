@@ -279,8 +279,8 @@ public class FindNewsByInternet {
         return todayData;
     }
 
-    public static List<News> getHistoryNews(int num){
-        String volley_url ="http://gank.io/api/history/content/"+num+"/1";
+    public static List<News> getHistoryNews(int num,int page){
+        String volley_url ="http://gank.io/api/history/content/"+num+"/"+page;
         //    String volley_url = "http://gank.io/api/day/2016/07/27";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, volley_url, null,
