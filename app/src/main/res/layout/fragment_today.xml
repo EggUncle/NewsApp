@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <uncle.egg.newsapp.module.XCRecyclerView
+        android:visibility="invisible"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/today_recycle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
+
+        <ProgressBar
+            android:visibility="visible"
+            style="?android:attr/progressBarStyleLarge"
+            android:id="@+id/today_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
 
     <!--<android.support.v7.widget.RecyclerView-->

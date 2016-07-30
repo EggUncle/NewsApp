@@ -2,6 +2,7 @@ package uncle.egg.newsapp.module;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +22,7 @@ import java.util.List;
 import uncle.egg.newsapp.R;
 import uncle.egg.newsapp.activity.WebActivity;
 import uncle.egg.newsapp.util.FindNews;
+import uncle.egg.newsapp.util.FindNewsByInternet;
 
 
 public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapter.MyViewHolder> {
@@ -88,4 +90,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListRecyclerAdapte
             cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
     }
+
+
+
 }

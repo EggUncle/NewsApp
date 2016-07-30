@@ -15,8 +15,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import uncle.egg.newsapp.MyApplication;
 import uncle.egg.newsapp.R;
@@ -78,7 +81,7 @@ public class FindNewsByInternet {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-
+                        Log.v("TODAY","ERROR!!!!!!!!!!Android");
 
                     }
                 });
@@ -133,7 +136,7 @@ public class FindNewsByInternet {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-
+                        Log.v("TODAY","ERROR!!!----------------------------------------------------!!!!!!!IOS");
 
                     }
                 });
@@ -233,6 +236,7 @@ public class FindNewsByInternet {
         final String todayDate = date;
         String volley_url = "http://gank.io/api/day/" + date;
         //    String volley_url = "http://gank.io/api/day/2016/07/27";
+        Log.v("URL",volley_url);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, volley_url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -298,7 +302,17 @@ public class FindNewsByInternet {
                             for(int i = 0;i<jsonArray.length();i++){
                                 News news = new News();
                                 String title = jsonArray.optJSONObject(i).getString("title");
+                                String xml = jsonArray.optJSONObject(i).getString("content");
+                                String publishedAt =  jsonArray.optJSONObject(i).getString("publishedAt");
+                                Pattern pattern = Pattern.compile("<img alt=\"\" src=\".*\" />");
+                                Matcher matcher = pattern.matcher(xml);
+                                if (matcher.find()) {// matcher.matchers() {
+                                    Log.v("XML", matcher.group().substring(17,matcher.group().lastIndexOf("\"")));
+                                }
+                               String imgGirlUrl= matcher.group().substring(17,matcher.group().lastIndexOf("\""));
+                                news.setGirlUrl(imgGirlUrl);
                                 news.setDesc(title);
+                                news.setPublishedAt(publishedAt);
                                 historyData.add(news);
                             }
 

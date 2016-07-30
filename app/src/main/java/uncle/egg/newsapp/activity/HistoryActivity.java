@@ -1,12 +1,17 @@
 package uncle.egg.newsapp.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.xlf.nrl.NsRefreshLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uncle.egg.newsapp.R;
@@ -20,21 +25,21 @@ public class HistoryActivity extends AppCompatActivity implements
     private boolean loadMoreEnable = true;
     private NsRefreshLayout refreshLayout;
     private RecyclerView rvTest;
-//    private ProgressBar progressBar;
 
-    //新闻消息的类型
-    private int type;
+    private ProgressBar historyProgress;
+
+
+
+
+
+
     //当前页数
     private int pageNum = 1;
 
     //List中的数据数量
-    private int listDataNum = 5;
+    private int listDataNum = 3;
 
-    //List一次数据添加的数量
-    private int listDataAddNum = 5;
-
-
-    private List<News> dateNews;
+    private List<News> dateNews = new ArrayList<>();
 
     private ListHistoryAdapter adapter;
 
@@ -43,18 +48,28 @@ public class HistoryActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         setTitle("历史热点");
-        init();
+        initview();
+        initData();
     }
 
-    private void init() {
+    private void initData() {
         dateNews = FindNewsByInternet.getHistoryNews(listDataNum,pageNum);
         adapter = new ListHistoryAdapter(this, dateNews);
-        refreshLayout = (NsRefreshLayout)findViewById(R.id.nrl_test);
-        rvTest = (RecyclerView)findViewById(R.id.rv_test);
         rvTest.setAdapter(adapter);
+
+    }
+
+    private void initview() {
+
+        refreshLayout = (NsRefreshLayout)findViewById(R.id.nrl_test);
+        historyProgress = (ProgressBar) findViewById(R.id.history_progress);
+        rvTest = (RecyclerView)findViewById(R.id.rv_test);
+
         refreshLayout.setRefreshLayoutController(this);
         refreshLayout.setRefreshLayoutListener(this);
-     //   setFragmentData();
+
+        historyProgress.setVisibility(View.GONE);
+        refreshLayout.setVisibility(View.VISIBLE);
     }
 
 
@@ -104,5 +119,6 @@ public class HistoryActivity extends AppCompatActivity implements
             }
         }, 1000);
     }
+
 
 }

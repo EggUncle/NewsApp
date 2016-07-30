@@ -1,6 +1,7 @@
 package uncle.egg.newsapp;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -11,6 +12,7 @@ import java.util.List;
 import uncle.egg.newsapp.DB.NewsDB;
 import uncle.egg.newsapp.module.News;
 import uncle.egg.newsapp.util.FindNews;
+import uncle.egg.newsapp.util.FindNewsByInternet;
 
 /**
  * Created by egguncle on 16.7.21.
@@ -20,8 +22,8 @@ public class MyApplication extends Application {
 //    private static NewsDB newsDB;
    // private static NewsDB todayDB;
 
-//    public static List<News> DataAndroidNews = new ArrayList<>();
-//    public static List<News> DataIOSNews = new ArrayList<>();
+    private  static List<News> dataAndroidNews = new ArrayList<>();
+    private static List<News> dataIOSNews = new ArrayList<>();
 //    public static List<News> DataHtmlNews = new ArrayList<>();
 
     @Override
@@ -55,17 +57,20 @@ public class MyApplication extends Application {
    //     queues.cancelAll(tag);
     //}
 
-//    public static List<News> getDataAndroidNews() {
-//
-//        DataAndroidNews = FindNews.getNews(FindNews.FIND_NEWS_ANDROID, 1);
-//        return DataAndroidNews;
-//    }
-//
-//    public static List<News> getDataIOSNews() {
-//
-//        DataIOSNews = FindNews.getNews(FindNews.FIND_NEWS_IOS, 1);
-//        return DataIOSNews;
-//    }
+    public static List<News> getDataAndroidNews() {
+
+
+            dataAndroidNews = FindNewsByInternet.getAndroidData(1);
+
+
+        return dataAndroidNews;
+    }
+
+    public static List<News> getDataIOSNews() {
+
+        dataIOSNews =FindNewsByInternet.getiOSData(1);
+        return dataIOSNews;
+    }
 //
 //
 //    public static List<News> getDataHtmlNews() {

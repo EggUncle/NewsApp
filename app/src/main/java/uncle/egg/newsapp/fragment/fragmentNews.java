@@ -1,13 +1,10 @@
 package uncle.egg.newsapp.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,17 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.xlf.nrl.NsRefreshLayout;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
-import uncle.egg.newsapp.DB.NewsDB;
 import uncle.egg.newsapp.R;
-import uncle.egg.newsapp.activity.MainActivity;
 import uncle.egg.newsapp.module.ListRecyclerAdapter;
 import uncle.egg.newsapp.module.News;
 import uncle.egg.newsapp.util.FindNews;
@@ -42,6 +34,7 @@ public class FragmentNews extends Fragment implements
     private boolean loadMoreEnable = true;
     private NsRefreshLayout refreshLayout;
     private RecyclerView rvTest;
+    private ProgressBar newsProgressBar;
 //    private ProgressBar progressBar;
 
     //新闻消息的类型
@@ -63,14 +56,21 @@ public class FragmentNews extends Fragment implements
     private ListRecyclerAdapter adapter;
 
     private Handler handler = new Handler() {
+
         @Override
-        public String getMessageName(Message message) {
-            if (message.what == 0x123) {
-                Log.v("MY_TAG", "--------------------------------handler--------------" + type);
+        public void handleMessage(Message msg) {
+
+            if (msg.what == 0x123) {
                 setFragmentData();
+                newsProgressBar.setVisibility(View.GONE);
+                refreshLayout.setVisibility(View.VISIBLE);
+
             }
-            return super.getMessageName(message);
+
+            super.handleMessage(msg);
         }
+
+
     };
 
     @Override
@@ -88,26 +88,26 @@ public class FragmentNews extends Fragment implements
 
 
         view = inflater.inflate(R.layout.fragment_news, null);
+        newsProgressBar = (ProgressBar) view.findViewById(R.id.news_progress);
         refreshLayout = (NsRefreshLayout) view.findViewById(R.id.nrl_test);
         //   progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         refreshLayout.setRefreshLayoutController(this);
         refreshLayout.setRefreshLayoutListener(this);
 
         rvTest = (RecyclerView) view.findViewById(R.id.rv_test);
-
-        setFragmentData();
-
         rvTest.setAdapter(adapter);
+        //      setFragmentData();
 
-        Log.v("MY_TAG", "--------------------------------oncreateview--------------" + type);
+        newsProgressBar.setVisibility(View.GONE);
+        refreshLayout.setVisibility(View.VISIBLE);
+        Log.v("MY_TAG_View", "--------------------------------oncreateview--------------" + type);
 
 //        MyAyncTask myAyncTask = new MyAyncTask();
 //        myAyncTask.execute();
 //        Message msg = new Message();
 //        msg.what = 0x123;
 //        handler.sendMessage(msg);
-
-
+//        Log.v("handler", msg.what + "");
 
         return view;
     }
@@ -123,51 +123,33 @@ public class FragmentNews extends Fragment implements
         switch (type) {
             case FindNews.FIND_NEWS_ANDROID: {
                 dateNews = FindNewsByInternet.getAndroidData(pageNum++);
-                adapter = new ListRecyclerAdapter(context,dateNews );
+//               dateNews= MyApplication.getDataAndroidNews();
+//                pageNum++;
             }
             break;
             case FindNews.FIND_NEWS_IOS: {
+//                dateNews= MyApplication.getDataIOSNews();
+//                pageNum++;
                 dateNews = FindNewsByInternet.getiOSData(pageNum++);
-                adapter = new ListRecyclerAdapter(context,dateNews);
             }
             break;
         }
+        adapter = new ListRecyclerAdapter(context, dateNews);
     }
-
 
     //获取更多数据
     public  void setFragmentData() {
         switch (type) {
             case FindNews.FIND_NEWS_ANDROID: {
-
-                //   FindNews.getNews(type, ++pageNum);
-//                //一次多获取十条
-//                listDataNum = listDataNum + listDataAddNum;
                 dateNews = FindNewsByInternet.getAndroidData(pageNum++);
-             //   dateNews.addAll(dateNews);
             }
             break;
             case FindNews.FIND_NEWS_IOS: {
-                //   FindNews.getNews(type, ++pageNum);
-
                 dateNews = FindNewsByInternet.getiOSData(pageNum++);
-            //    dateNews.addAll(dateNews);
-
-//                dateNews.clear();
-//
-//                //一次多获取十条
-//                listDataNum = listDataNum + listDataAddNum;
-                //     dateNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_IOS, listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_HTML: {
-                //   FindNews.getNews(type, ++pageNum);
 
-//                dateNews.clear();
-//
-//                //一次多获取十条
-//                listDataNum = listDataNum + listDataAddNum;
-                //   dateNews.addAll(NewsDB.getDBNews(FindNews.FIND_NEWS_HTML, listDataNum));
             }
             break;
             case FindNews.FIND_NEWS_GIRL: {
@@ -175,8 +157,9 @@ public class FragmentNews extends Fragment implements
             }
             break;
         }
+        adapter.notifyDataSetChanged();
 
-         adapter.notifyDataSetChanged();
+
     }
 
 
@@ -219,5 +202,7 @@ public class FragmentNews extends Fragment implements
             }
         }, 1000);
     }
+
+
 
 }

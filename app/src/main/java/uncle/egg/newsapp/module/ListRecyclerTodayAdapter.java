@@ -71,8 +71,6 @@ public class ListRecyclerTodayAdapter extends RecyclerView.Adapter<ListRecyclerT
 
     @Override
     public int getItemCount() {
-
-        Log.v("getItemCount",dataNews.size()+"");
         return dataNews == null ? 0 : dataNews.size()-2;
 
     }

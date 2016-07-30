@@ -14,7 +14,9 @@ import android.widget.Toast;
 import java.util.List;
 
 import uncle.egg.newsapp.R;
+import uncle.egg.newsapp.activity.HotPointActivity;
 import uncle.egg.newsapp.activity.WebActivity;
+import uncle.egg.newsapp.util.FindNewsByInternet;
 
 /**
  * Created by egguncle on 16.7.29.
@@ -36,24 +38,23 @@ public class ListHistoryAdapter  extends RecyclerView.Adapter<ListHistoryAdapter
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         if ("福利".equals(dataNews.get(position).getType()) || "".equals(dataNews.get(position).getDesc())) {
             return;
         }
 
         holder.todayTitle.setText(dataNews.get(position).getDesc());
-
-
+        FindNewsByInternet.setTodayImage(dataNews.get(position).getGirlUrl().toString(), holder.imgTodayGirl);
+        holder.txtDate.setText(dataNews.get(position).getPublishedAt().substring(0, 10));
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, dataNews.get(position).getUrl(), Toast.LENGTH_SHORT)
                         .show();
-                Intent intent = new Intent(context, WebActivity.class);
-                intent.putExtra("desc", dataNews.get(position).getDesc());
-                intent.putExtra("url", dataNews.get(position).getUrl());
+                Intent intent = new Intent(context, HotPointActivity.class);
+                intent.putExtra("date", holder.txtDate.getText());
                 context.startActivity(intent);
             }
         });
@@ -70,12 +71,14 @@ public class ListHistoryAdapter  extends RecyclerView.Adapter<ListHistoryAdapter
          CardView cardView;
          ImageView imgTodayGirl;
          TextView todayTitle;
+        TextView txtDate;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             imgTodayGirl = (ImageView) itemView.findViewById(R.id.img_today_girl);
             todayTitle = (TextView) itemView.findViewById(R.id.today_title);
             cardView = (CardView) itemView.findViewById(R.id.img_card_view);
+            txtDate = (TextView) itemView.findViewById(R.id.txt_date);
         }
     }
 }
