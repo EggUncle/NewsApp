@@ -15,6 +15,17 @@ public class  News {
     //作者姓名
     private String who;
 
+    //妹子链接
+    private String girlUrl;
+
+    public String getGirlUrl() {
+        return girlUrl;
+    }
+
+    public void setGirlUrl(String girlUrl) {
+        this.girlUrl = girlUrl;
+    }
+
     public String getDesc() {
         return desc;
     }

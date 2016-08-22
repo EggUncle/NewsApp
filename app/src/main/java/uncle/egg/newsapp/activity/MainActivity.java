@@ -2,23 +2,19 @@ package uncle.egg.newsapp.activity;
 
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-import uncle.egg.newsapp.DB.NewsDB;
-import uncle.egg.newsapp.MyApplication;
 import uncle.egg.newsapp.R;
 import uncle.egg.newsapp.fragment.FragmentNews;
 import uncle.egg.newsapp.fragment.MyFragmentAdapter;
@@ -60,8 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         one.setIconAlpha(1.0f);
 
+
         FragmentManager fm = getSupportFragmentManager();
-        fragmentAdapter = new MyFragmentAdapter(fm, this);
+        fragmentAdapter = new MyFragmentAdapter(fm, MainActivity.this);
         viewPager.setAdapter(fragmentAdapter);
         viewPager.addOnPageChangeListener(MainActivity.this);
 
@@ -69,9 +66,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initGetNews() {
 
-//        MyApplication.getDataAndroidNews();
-//        MyApplication.getDataIOSNews();
-//        MyApplication.getDataHtmlNews();
     }
 
 

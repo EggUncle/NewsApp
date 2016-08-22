@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/img_card_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:foreground="@drawable/card_foreground"
         android:layout_margin="8dp"
         card_view:cardCornerRadius="4dp">
+
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
+
             <ImageView
                 android:id="@+id/img_today_girl"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@mipmap/ic_launcher" />
-
+                android:scaleType="fitXY"
+                android:layout_height="wrap_content"
+                android:src="@drawable/error_img" />
+            <TextView
+                android:padding="5dp"
+                android:textSize="14sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_date"
+                android:text="date"
+                />
             <TextView
                 android:id="@+id/today_title"
                 android:layout_width="match_parent"

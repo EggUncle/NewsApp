@@ -17,16 +17,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+
 import java.util.List;
 
 import uncle.egg.newsapp.R;
 import uncle.egg.newsapp.activity.WebActivity;
-import uncle.egg.newsapp.util.FindNews;
+
 
 
 public class ListRecyclerTodayAdapter extends RecyclerView.Adapter<ListRecyclerTodayAdapter.MyViewHolder> {
@@ -75,8 +71,6 @@ public class ListRecyclerTodayAdapter extends RecyclerView.Adapter<ListRecyclerT
 
     @Override
     public int getItemCount() {
-
-        Log.v("getItemCount",dataNews.size()+"");
         return dataNews == null ? 0 : dataNews.size()-2;
 
     }

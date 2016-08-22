@@ -23,10 +23,11 @@
             android:launchMode="singleInstance" />
         <activity
             android:name=".activity.WebActivity"
-            android:parentActivityName=".activity.MainActivity"/>
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.HistoryActivity"
-            android:parentActivityName=".activity.MainActivity"/>
+            android:parentActivityName=".activity.MainActivity" />
+        <activity android:name=".activity.HotPointActivity" android:parentActivityName=".activity.HistoryActivity" ></activity>
     </application>
 
 </manifest>

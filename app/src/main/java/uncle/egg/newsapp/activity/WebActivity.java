@@ -11,10 +11,11 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import uncle.egg.newsapp.R;
+import uncle.egg.newsapp.module.ProgressWebView;
 
 public class WebActivity extends AppCompatActivity {
 
-    private WebView webView;
+    private ProgressWebView webView;
     private String url;
     private String desc;
 
@@ -53,7 +54,7 @@ public class WebActivity extends AppCompatActivity {
         url = getIntent().getStringExtra("url");
         desc = getIntent().getStringExtra("desc");
         Log.v("MY_TAG------", url);
-        webView = (WebView) findViewById(R.id.webview);
+        webView = (ProgressWebView) findViewById(R.id.webview);
     }
 
     @Override

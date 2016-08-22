@@ -8,6 +8,7 @@
     tools:context="uncle.egg.newsapp.activity.HistoryActivity">
 
     <com.xlf.nrl.NsRefreshLayout
+        android:visibility="invisible"
         android:id="@+id/nrl_test"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,5 +22,13 @@
             app:layoutManager="LinearLayoutManager"
             tools:listitem="@layout/item_list" />
     </com.xlf.nrl.NsRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/history_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible" />
 
 </LinearLayout>
